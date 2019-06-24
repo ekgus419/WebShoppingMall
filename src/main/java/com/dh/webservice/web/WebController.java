@@ -1,26 +1,19 @@
 package com.dh.webservice.web;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-
-/**
- * Created by dh@gmail.com on 2017. 12. 31.
- * Blog : http://jojoldu.tistory.com
- * Github : https://github.com/jojoldu
- */
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@AllArgsConstructor
 public class WebController {
 
-//    private PostsService postsService;
-//
-//    @GetMapping("/")
-//    public String main(Model model) {
-//        model.addAttribute("posts", postsService.findAllDesc());
-//        return "main";
-//    }
+    @RequestMapping(value = {"/", "/login","/signin"}, method = RequestMethod.GET)
+    public ModelAndView login() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user/signin");
+        return modelAndView;
+    }
+
 
 }

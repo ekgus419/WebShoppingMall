@@ -1,6 +1,6 @@
 package com.dh.webservice.security;
 
-import com.dh.webservice.service.MemberService;
+import com.dh.webservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
     @Autowired
-    private MemberService memberService;
+    private UserService userService;
 
     @Autowired
     private WebSecurityHandler securityHandler;
@@ -77,8 +77,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/").permitAll()
                     .antMatchers("/login").permitAll()
-                    .antMatchers("/member/signup").permitAll()
-                    .antMatchers("/member/admin/**").hasAuthority("ADMIN").anyRequest().authenticated()
+                    .antMatchers("/signin").permitAll()
+                    .antMatchers("/user/signup").permitAll()
+                    .antMatchers("/user/admin/**").hasAuthority("ADMIN").anyRequest().authenticated()
                 .and()
                     .csrf().disable()
                 .formLogin()
@@ -88,7 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .successHandler(securityHandler)
                     .failureHandler(securityHandler)
 //                .failureUrl("/login?error=true")
-//                .defaultSuccessUrl("/member/admin/index")
+//                .defaultSuccessUrl("/user/admin/index")
                 .and()
                     .logout()
                         .logoutSuccessUrl("/")

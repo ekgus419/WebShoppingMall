@@ -32,15 +32,12 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
         }
 
         protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-
-            System.out.println("handle()");
             String targetUrl = determineTargetUrl(authentication);
 
             if (response.isCommitted()) {
                 System.out.println("Response has already been committed. Unable to redirect to : targetUrl -> " + targetUrl);
                 return;
             }
-
             redirectStrategy.sendRedirect(request, response, targetUrl);
         }
 
@@ -61,34 +58,28 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
             System.out.println("determineTargetUrl()");
             for (GrantedAuthority grantedAuthority : authorities) {
                 if (grantedAuthority.getAuthority().equals("USER")) {
-                    System.out.println("determineTargetUrl() + isUser() " + grantedAuthority.getAuthority().equals("USER"));
                     isUser = true;
                     break;
                 } else if (grantedAuthority.getAuthority().equals("ADMIN")) {
-                    System.out.println("determineTargetUrl() + isAdmin() " + grantedAuthority.getAuthority().equals("ADMIN"));
                     isAdmin = true;
                     break;
                 }
             }
-
             if (isUser) {
-                return "/member/index";
+                return "/user/index";
             } else if (isAdmin) {
-                return "/member/admin/index";
+                return "/user/admin/index";
             } else {
                 throw new IllegalStateException();
             }
 
         }
 
-
         // 로그인 실패 Handler
         @Override
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-
             // exception 에 따른 실패 메시지 분기처리 필요
-            response.sendRedirect("/member/login?error=1");
-
+            response.sendRedirect("/user/login?error=1");
         }
 
 }

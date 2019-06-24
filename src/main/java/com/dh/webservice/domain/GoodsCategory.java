@@ -11,15 +11,15 @@ public class GoodsCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "cate_code")
-    private Long cateCode;    // 카테고리 코드
+    @Column(name = "category_code")
+    private Long categoryCode;    // 카테고리 코드
 
-    @Column(name = "cate_name")
-    private String cateName; // 카테고리 이름
+    @Column(name = "category_name")
+    private String categoryName; // 카테고리 이름
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="cate_code")
-    private Collection<Goods> cafeCodeRef;    // 카테고리 참조 코드
+    @JoinColumn(name="category_code")
+    private Collection<Goods> categoryCodeRef;    // 카테고리 참조 코드
 
 
 }

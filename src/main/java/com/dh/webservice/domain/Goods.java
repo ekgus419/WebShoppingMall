@@ -10,29 +10,29 @@ public class Goods {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "gds_num")
-    private Long gdsNum;    // 상품 번호
+    @Column(name = "goods_num")
+    private Long goodsNum;    // 상품 번호
 
-    @Column(name = "gds_name")
-    private String gdsName; // 상품 이름
+    @Column(name = "goods_name")
+    private String goodsName; // 상품 이름
 
-    @Column(name = "cate_code")
-    private String cateCode;    // 분류
+    @Column(name = "category_code")
+    private String categoryCode;    // 분류
 
-    @Column(name = "gds_price")
-    private int gdsPrice;   // 상품 가격
+    @Column(name = "goods_price")
+    private int goodsPrice;   // 상품 가격
 
-    @Column(name = "gds_stock")
-    private String gdsStock;    // 상품 수량
+    @Column(name = "goods_stock")
+    private String goodsStock;    // 상품 수량
 
-    @Column(name = "gds_des")
-    private String gdsDes;      // 상품 설명
+    @Column(name = "goods_description")
+    private String goodsDescription;      // 상품 설명
 
-    @Column(name = "gds_img")
-    private String gdsImg;      // 상품 이미지
+    @Column(name = "goods_img")
+    private String goodsImg;      // 상품 이미지
 
-    @Column(name = "gds_date")
-    private String gdsDate;     // 상품 등록일
+    @Column(name = "goods_date")
+    private String goodsDate;     // 상품 등록일
 
 
 

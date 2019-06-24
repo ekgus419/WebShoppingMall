@@ -5,9 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity(name = "MEMBER")
+@Entity(name = "USER")
 @Data
-public class Member {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

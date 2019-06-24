@@ -1,7 +1,7 @@
 var main = {
     init: function () {
         var _this = this;
-        $('#btn-save').on('click', function () {
+        $('#btn_signup').on('click', function () {
             _this.save();
         });
     },
@@ -10,14 +10,14 @@ var main = {
             userName: $('#user_name').val(),
             userPwd: $('#user_pwd').val(),
             userEmail: $('#user_email').val(),
-            userAddr1: $('#user_addr1').val(),
-            userAddr2: $('#user_addr2').val(),
-            userAddr3: $('#user_addr3').val()
+            // userAddr1: $('#user_addr1').val(),
+            // userAddr2: $('#user_addr2').val(),
+            // userAddr3: $('#user_addr3').val()
         };
 
         $.ajax({
             type: 'POST',
-            url: '/member/signup',
+            url: '/user/signup',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
