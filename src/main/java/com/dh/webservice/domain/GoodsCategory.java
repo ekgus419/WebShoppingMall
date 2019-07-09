@@ -21,11 +21,13 @@ import javax.persistence.*;
 @Data
 public class GoodsCategory extends WebBaseTimeConfig {
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "goods_category_idx")
+//    private Long goodsCategoryIdx;    // 상품 카테고리 idx
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "goods_category_idx")
-    private Long goodsCategoryIdx;    // 상품 카테고리 idx
-
     @Column(name = "category_code")
     private Long categoryCode;    // 카테고리 코드
 
@@ -34,4 +36,5 @@ public class GoodsCategory extends WebBaseTimeConfig {
 
     @Column(name = "category_name")
     private String categoryName; // 카테고리 이름
+
 }

@@ -6,6 +6,7 @@
  */
 package com.dh.webservice.domain;
 
+import com.dh.webservice.config.WebBaseTimeConfig;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ import java.util.Set;
  */
 @Entity(name = "USER")
 @Data
-public class User {
+public class User extends WebBaseTimeConfig {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,9 +47,6 @@ public class User {
 
     @Column(name = "user_addr3")
     private String userAddr3;
-
-    @Column(name = "reg_date")
-    private String regDate;
 
     @Column(name = "active")
     private int active;

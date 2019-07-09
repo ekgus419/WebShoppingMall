@@ -25,41 +25,10 @@ var main = {
             location.href("/login");
         }).fail(function (error) {
             alert("error" +error);
+            console.log(error);
         });
     }
 
 };
 
 main.init();
-
-$('#update_Btn').on('click', function () {
-    // var data = {
-    //     bNo: $("#bNo").val(),
-    //     writer: $("#writer").val(),
-    //     title: $("#title").val(),
-    //     content: $("#content").val(),
-    // };
-    // $.ajax({
-    //     type: "PUT",
-    //     url: "/board/update/" + data.bNo,
-    //     dataType: "json",
-    //     contentType: "application/json; charset=utf-8",
-    //     data: JSON.stringify(data)
-    // }).done(function (result) {
-    //     console.log(result);
-    //     if(result.bNo > 0){
-    //         alert("수정되었습니다.");
-    //         location.href= "/board/detail/" + result.bNo;
-    //     }else{
-    //         alert("자신이 쓴 글만 수정 할 수 있습니다.");
-    //         history.go(0);
-    //     }
-    // }).fail(function (jqXHR, textStatus, errorThrown) {
-    //     alert("관리자에게 문의해주세요.");
-    //     console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
-    // });
-});
-
-$('#delete_Btn').on('click', function () {
-    alert('삭제');
-});

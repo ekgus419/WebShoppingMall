@@ -18,13 +18,16 @@ import javax.persistence.*;
  */
 @Entity(name = "GOODS")
 @Data
+@Table(name="GOODS", uniqueConstraints = @UniqueConstraint(columnNames = {"category_code_ref"}, name="FK_GOODS_CATEGORY"))
 public class Goods  extends WebBaseTimeConfig {
+
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "goods_idx")
+//    private Long goodsIdx;    // 상품 번호
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "goods_idx")
-    private Long goodsIdx;    // 상품 번호
-
     @Column(name = "goods_num")
     private Long goodsNum;    // 상품 번호
 
@@ -33,7 +36,7 @@ public class Goods  extends WebBaseTimeConfig {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_code_ref")
-    private GoodsCategory goodsCategory;    // 분류
+    private GoodsCategory goodsCategoryCode;    // 분류
 
     @Column(name = "goods_price")
     private int goodsPrice;   // 상품 가격

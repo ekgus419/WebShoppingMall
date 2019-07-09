@@ -1,11 +1,10 @@
 <html>
 <head>
     <title>Admin</title>
-    <script src="{{springMacroRequestContext.request.contextPath}}/js/jquery/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="{{springMacroRequestContext.request.contextPath}}/js/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="{{springMacroRequestContext.request.contextPath}}/js/bootstrap/bootstrap-theme.min.css">
-    <script src={{springMacroRequestContext.request.contextPath}}/js/bootstrap/bootstrap.min.js"></script>
-    <script src="/resources/ckeditor/ckeditor.js"></script>
+    <script src="/js/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="/js/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/js/bootstrap/bootstrap-theme.min.css">
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
     <style>
         body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
         ul { padding:0; margin:0; list-style:none;  }
@@ -28,9 +27,9 @@
         .inputArea { margin:10px 0; }
         select { width:100px; }
         label { display:inline-block; width:70px; padding:5px; }
-        label[for='gdsDes'] { display:block; }
+        label[for='goodsDescription'] { display:block; }
         input { width:150px; }
-        textarea#gdsDes { width:400px; height:180px; }
+        textarea#goodsDescription { width:400px; height:180px; }
         .select_img img { margin:20px 0; }
     </style>
 </head>
@@ -53,43 +52,39 @@
         <div id="container_box">
             <h2>상품 상세</h2>
             <form method="post" autocomplete="off">
-                <input type="hidden" name="goodsName" value="{{goods.goodsName}}" />
+                <input type="hidden" id="goodsNum" name="goodsNum" value="{{goods.goodsNum}}" />
                 <div class="inputArea">
                     <label>1차 분류</label>
                     <span class="category1"></span>
                     <label>2차 분류</label>
-                    <span class="category2">{{goods.categoryCode}}</span>
+                    <span class="category2">{{goods.goodsCategoryCode}}</span>
                 </div>
 
                 <div class="inputArea">
                     <label for="goodsName">상품명</label>
-                    <span>{{goods.goodsName}}</span>
+                    <span><input type="text" id="goodsName" value="{{goods.goodsName}}" /></span>
                 </div>
 
                 <div class="inputArea">
                     <label for="goodsPrice">상품가격</label>
-                    <span>{{goods.goodsPrice}}</span>
+                    <span><input type="text" id="goodsPrice" value="{{goods.goodsPrice}}" /></span>
                 </div>
 
                 <div class="inputArea">
                     <label for="goodsStock">상품수량</label>
-                    <span>{{goods.goodsStock}}</span>
+                    <span><input type="text" id="goodsStock" value="{{goods.goodsStock}}" /></span>
                 </div>
 
                 <div class="inputArea">
                     <label for="goodsDescription">상품소개</label>
-                    <span>{{goods.goodsDescription}}</span>
+                    <span<input type="text" id="goodsDescription" value="{{goods.goodsDescription}}" /></span>
                 </div>
                 <div class="inputArea">
-<!--                    <button type="button" id="update_Btn" class="btn btn-warning">수정</button>-->
-                    <a href="/admin/goods/update" class="btn btn-warning">
+                    <a href="/admin/goods/update/{{goods.goodsNum}}" class="btn btn-warning">
                         <span class="text">수정</span>
                     </a>
-                    <button type="button" id="delete_Btn" class="btn btn-danger">삭제</button>
-
-
+                    <button type="button" id="btn_delete" class="btn btn-danger">삭제</button>
                 </div>
-
             </form>
         </div>
     </section>
@@ -99,6 +94,6 @@
         </div>
     </footer>
 </div>
-<script src="/js/app/main.js"></script>
+<script src="/js/app/goods.js"></script>
 </body>
 </html>

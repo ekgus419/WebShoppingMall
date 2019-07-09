@@ -6,6 +6,7 @@
 package com.dh.webservice.web;
 
 import com.dh.webservice.domain.Goods;
+import com.dh.webservice.domain.RetrunMessage;
 import com.dh.webservice.domain.User;
 import com.dh.webservice.repository.GoodsRepository;
 import com.dh.webservice.service.UserService;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -60,6 +62,7 @@ public class AdminController {
     public void getGoodsList(Model model) throws Exception {
         System.out.println("get goods list(); ");
         List<Goods> list = goodsRepository.findAll();
+        System.out.println("goodsList.toStrong () +  " + list.toString());
         model.addAttribute("list", list);
 
     }
@@ -79,46 +82,64 @@ public class AdminController {
     }
 
     /**
-     * 상품 삭제
-     * @param goodsNum
-     * @return 상품 삭제 후 admin index page view
-     */
-    @RequestMapping(value = "/goods/delete", method = RequestMethod.POST)
-    public String postGoodsDelete(@RequestParam("goodsNum") Long goodsNum) throws Exception {
-        System.out.println("get goods delete(); ");
-        goodsRepository.delete(goodsNum);
-        return "redirect:/admin/index";
-    }
-
-    /**
      * 상품 수정
      * @param model
      * @param goodsNum
      * @return 상품 수정 뷰 페이지
      */
-    @RequestMapping(value = "/goods/update", method = RequestMethod.GET)
-    public void getGoodsModifyGet(Model model, @RequestParam("goodsNum") Long goodsNum) throws Exception {
+    @RequestMapping(value = "/goods/update/{goodsNum}", method = RequestMethod.GET)
+    public String getGoodsModifyGet(Model model, @PathVariable Long goodsNum) throws Exception {
         System.out.println("get goods update(); ");
         Goods goods = goodsRepository.findOne(goodsNum);
         model.addAttribute("goods", goods);
+        return "/admin/goods/update";
     }
-
 
     /**
      * 상품 수정
-     * @param model
+     * @param goodsNum
      * @param goods
-     * @return void
+     * @return 수정된 게시글 Entity
      */
-    @RequestMapping(value = "/goods/update", method = RequestMethod.POST)
-    public void getGoodsModifyPost(Model model, Goods goods) throws Exception {
-        System.out.println("post goods update(); ");
-//        Goods goods = goodsRepository.findOne(goodsNum);
-//        goods.set
-        goodsRepository.save(goods);
+    @PutMapping("/goods/update/{goodsNum}")
+    @ResponseBody
+    public boolean update(@PathVariable Long goodsNum, @RequestBody Goods goods, Principal principal) {
+        System.out.println("================= goods update get view ======================");
+        String writer = principal.getName();
+        if(!writer.equals("") &&  writer.trim().length() > 0) {
+            Goods updateGoods = goodsRepository.findOne(goodsNum);
+            updateGoods.setGoodsName(goods.getGoodsName());
+            updateGoods.setGoodsDescription(goods.getGoodsDescription());
+            updateGoods.setGoodsPrice(goods.getGoodsPrice());
+            goodsRepository.save(updateGoods);
+            return true;
+        }else{
+            return false;
+        }
 
     }
 
+    /**
+     * 상품 삭제
+     * @param goodsNum
+     * @return boolean
+     */
+    @DeleteMapping("/goods/delete/{goodsNum}")
+    @ResponseBody
+    public RetrunMessage goodsDelete(@PathVariable Long goodsNum, Principal principal) {
+        System.out.println("================= goods delete() ======================");
+        System.out.println("================= principal ======================" + principal.getName());
+        RetrunMessage message = new RetrunMessage();
+        String writer = principal.getName();
+        if(!writer.equals("") &&  writer.trim().length() > 0) {
+            goodsRepository.delete(goodsNum);
+            message.setResult(true);
+            return message;
+        }else{
+            message.setResult(false);
+            return message;
+        }
+    }
 
     /**
      * 상품 등록
