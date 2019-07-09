@@ -16,6 +16,7 @@ public class GoodsCategory {
     @Column(name = "category_name")
     private String categoryName; // 카테고리 이름
 
-
+    @Column(name = "category_code_ref")
+    private String categoryCodeRef; // 카테고리 이름
 
 }
