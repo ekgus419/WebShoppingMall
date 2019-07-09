@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebShoppingmall)
+ *
+ */
 package com.dh.webservice.oauth;
 
 
@@ -7,6 +13,14 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
+/**
+ * @title Spring Security 설정 파일
+ * @author cdh
+ * @FileName : CustomUserDetails
+ * @see org.springframework.security.core.userdetails.UserDetails
+ *
+ */
 @SuppressWarnings("serial")
 public class CustomUserDetails implements UserDetails {
 

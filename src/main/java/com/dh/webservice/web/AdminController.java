@@ -1,3 +1,8 @@
+/**
+ * @author cdh
+ * @copyright Copyright dh-0419(https://github.com/ekgus419/WebShoppingmall)
+ * @since 2019-07-01
+ */
 package com.dh.webservice.web;
 
 import com.dh.webservice.domain.Goods;
@@ -15,9 +20,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-
+/**
+ * @title Admin 컨트롤러 파일
+ * @author cdh
+ * @FileName : AdminController
+ *
+ */
 @Controller
-@RequestMapping(value="/admin/*")
+@RequestMapping(value = "/admin/*")
 @Slf4j
 public class AdminController {
 
@@ -27,10 +37,10 @@ public class AdminController {
     @Autowired
     private GoodsRepository goodsRepository;
 
-//    @Resource(name="uploadPath")
-//    private String uploadPath;
-
-
+    /**
+     * 인덱스 페이지
+     * @return admin main page view
+     */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
@@ -41,30 +51,51 @@ public class AdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/goods/list", method = RequestMethod.GET)
-    public void getGoodsList(Model model) throws Exception{
+    /**
+     * 상품 목록
+     * @param model
+     * @return 전체 상품 목록 List
+     */
+    @RequestMapping(value = "/goods/list", method = RequestMethod.GET)
+    public void getGoodsList(Model model) throws Exception {
         System.out.println("get goods list(); ");
         List<Goods> list = goodsRepository.findAll();
         model.addAttribute("list", list);
 
     }
 
-    @RequestMapping(value="/goods/view", method = RequestMethod.GET)
-    public void getGoodsView(Model model, @RequestParam("goodsNum") Long goodsNum) throws Exception{
+    /**
+     * 상품 상세 보기
+     * @param model
+     * @param goodsNum
+     * @return 상품 상세 페이지
+     */
+    @RequestMapping(value = "/goods/view", method = RequestMethod.GET)
+    public void getGoodsView(Model model, @RequestParam("goodsNum") Long goodsNum) throws Exception {
         System.out.println("get goods view(); ");
         Goods goods = goodsRepository.findOne(goodsNum);
         model.addAttribute("goods", goods);
 
     }
 
+    /**
+     * 상품 삭제
+     * @param goodsNum
+     * @return 상품 삭제 후 admin index page view
+     */
     @RequestMapping(value = "/goods/delete", method = RequestMethod.POST)
-    public String postGoodsDelete(@RequestParam("goodsNum") Long goodsNum) throws Exception{
+    public String postGoodsDelete(@RequestParam("goodsNum") Long goodsNum) throws Exception {
         System.out.println("get goods delete(); ");
         goodsRepository.delete(goodsNum);
         return "redirect:/admin/index";
     }
 
-    // 상품 수정
+    /**
+     * 상품 수정
+     * @param model
+     * @param goodsNum
+     * @return 상품 수정 뷰 페이지
+     */
     @RequestMapping(value = "/goods/update", method = RequestMethod.GET)
     public void getGoodsModifyGet(Model model, @RequestParam("goodsNum") Long goodsNum) throws Exception {
         System.out.println("get goods update(); ");
@@ -73,8 +104,12 @@ public class AdminController {
     }
 
 
-
-    // 상품 수정
+    /**
+     * 상품 수정
+     * @param model
+     * @param goods
+     * @return void
+     */
     @RequestMapping(value = "/goods/update", method = RequestMethod.POST)
     public void getGoodsModifyPost(Model model, Goods goods) throws Exception {
         System.out.println("post goods update(); ");
@@ -85,14 +120,21 @@ public class AdminController {
     }
 
 
-
-    // 상품 등록
+    /**
+     * 상품 등록
+     * @return 상품 등록 뷰 리턴
+     */
     @RequestMapping(value = "/goods/register", method = RequestMethod.GET)
     public String getGoodsRegisterGet() throws Exception {
         return "/admin/goods/register";
     }
 
-    // 상품 등록
+    /**
+     * 상품 등록
+     * @param model
+     * @param goods
+     * @return void
+     */
     @RequestMapping(value = "/goods/register", method = RequestMethod.POST)
     public String getGoodsRegisterPost(Model model, Goods goods) throws Exception {
         System.out.println("/goods/register() ");

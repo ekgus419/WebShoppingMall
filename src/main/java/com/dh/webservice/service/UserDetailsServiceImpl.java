@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebShoppingmall)
+ *
+ */
 package com.dh.webservice.service;
 
 import com.dh.webservice.domain.Role;
@@ -17,6 +23,12 @@ import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @title Spring Security Login 메소드 구현
+ * @author cdh
+ * @FileName : UserDetailsServiceImpl
+ *
+ */
 @Service
 @Transactional
 @Slf4j

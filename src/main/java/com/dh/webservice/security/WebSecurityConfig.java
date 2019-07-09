@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebShoppingmall)
+ *
+ */
 package com.dh.webservice.security;
 
 import com.dh.webservice.service.UserService;
@@ -18,7 +24,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
-
+/**
+ * @title Spring Security 설정 파일
+ * @author cdh
+ * @FileName : WebSecurityConfig
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = false)

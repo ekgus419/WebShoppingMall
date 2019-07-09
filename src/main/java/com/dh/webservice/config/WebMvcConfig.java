@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebShoppingmall)
+ *
+ */
 package com.dh.webservice.config;
 
 import org.springframework.context.annotation.Bean;
@@ -8,6 +14,12 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+/**
+ * @title WebBoard 프로젝트 설정 파일
+ * @author cdh
+ * @FileName WebMvcConfig
+ *
+ */
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 

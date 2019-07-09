@@ -1,15 +1,30 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebShoppingmall)
+ *
+ */
 package com.dh.webservice.domain;
 
+import com.dh.webservice.config.WebBaseTimeConfig;
 import lombok.Data;
 
 import javax.persistence.*;
-
+/**
+ * @title GOODS Entity를 정의한다.
+ * @author cdh
+ * @FileName GOODS
+ *
+ */
 @Entity(name = "GOODS")
 @Data
-public class Goods {
+public class Goods  extends WebBaseTimeConfig {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "goods_idx")
+    private Long goodsIdx;    // 상품 번호
+
     @Column(name = "goods_num")
     private Long goodsNum;    // 상품 번호
 
@@ -31,10 +46,6 @@ public class Goods {
 
     @Column(name = "goods_img")
     private String goodsImg;      // 상품 이미지
-
-    @Column(name = "goods_date")
-    private String goodsDate;     // 상품 등록일
-
 
 
 
