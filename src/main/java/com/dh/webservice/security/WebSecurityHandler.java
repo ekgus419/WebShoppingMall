@@ -68,7 +68,8 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
             if (isUser) {
                 return "/user/index";
             } else if (isAdmin) {
-                return "/user/admin/index";
+                System.out.println("admin  /admin/index로 이동");
+                return "/admin/index";
             } else {
                 throw new IllegalStateException();
             }

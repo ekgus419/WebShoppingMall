@@ -79,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/login").permitAll()
                     .antMatchers("/signin").permitAll()
                     .antMatchers("/user/signup").permitAll()
-                    .antMatchers("/user/admin/**").hasAuthority("ADMIN").anyRequest().authenticated()
+                    .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest().authenticated()
                 .and()
                     .csrf().disable()
                 .formLogin()
@@ -92,8 +92,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .defaultSuccessUrl("/user/admin/index")
                 .and()
                     .logout()
-                        .logoutSuccessUrl("/")
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/signin")
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/signout"))
                     .and()
                         .exceptionHandling().accessDeniedPage("/access-denied");
     }

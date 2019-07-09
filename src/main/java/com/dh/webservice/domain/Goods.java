@@ -16,8 +16,9 @@ public class Goods {
     @Column(name = "goods_name")
     private String goodsName; // 상품 이름
 
-    @Column(name = "category_code")
-    private String categoryCode;    // 분류
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_code")
+    private GoodsCategory goodsCategory;    // 분류
 
     @Column(name = "goods_price")
     private int goodsPrice;   // 상품 가격

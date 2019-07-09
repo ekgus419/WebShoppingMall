@@ -35,25 +35,11 @@ public class UserController {
 
         ModelAndView modelAndView = new ModelAndView();
         userService.saveUser(user);
-        modelAndView.addObject("successMessage", "User has been registered successfully");
         modelAndView.addObject("user", new User());
         modelAndView.setViewName("/user/signup?return=true");
 
         return modelAndView;
     }
-
-
-    @RequestMapping(value = "/admin/index", method = RequestMethod.GET)
-    public ModelAndView adminhome() {
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " +  user.getUserName() + " (" + user.getUserEmail() + ")");
-        modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
-        modelAndView.setViewName("user/admin/index");
-        return modelAndView;
-    }
-
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public ModelAndView index() {
@@ -63,8 +49,8 @@ public class UserController {
         User user = userService.findUserByUserEmail(auth.getName());
         log.debug("user : " + user.toString());
         modelAndView.addObject("user", user);
-        modelAndView.addObject("userName", "Welcome " + user.getUserName() + " (" + user.getUserEmail() + ")");
-        modelAndView.addObject("userMessage", "Content Available Only for Users with User Role");
+//        modelAndView.addObject("userName", "Welcome " + user.getUserName() + " (" + user.getUserEmail() + ")");
+//        modelAndView.addObject("userMessage", "Content Available Only for Users with User Role");
         modelAndView.setViewName("user/index");
         return modelAndView;
     }
