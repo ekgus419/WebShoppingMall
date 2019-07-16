@@ -5,20 +5,24 @@
  */
 package com.dh.webservice.web;
 
-import com.dh.webservice.domain.Goods;
-import com.dh.webservice.domain.RetrunMessage;
-import com.dh.webservice.domain.User;
+import com.dh.webservice.domain.*;
+import com.dh.webservice.repository.GoodsCategoryRepository;
 import com.dh.webservice.repository.GoodsRepository;
 import com.dh.webservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONArray;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
 import java.security.Principal;
 import java.util.List;
 
@@ -38,6 +42,13 @@ public class AdminController {
 
     @Autowired
     private GoodsRepository goodsRepository;
+
+    @Autowired
+    private GoodsCategoryRepository goodsCategoryRepository;
+
+    File destinationFile;
+    String destinationFileName;
+    String fileUrl = "D:\\WebShoppingMall\\src\\main\\resources\\static\\uploads\\img\\";
 
     /**
      * 인덱스 페이지
@@ -77,6 +88,7 @@ public class AdminController {
     public void getGoodsView(Model model, @RequestParam("goodsNum") Long goodsNum) throws Exception {
         System.out.println("get goods view(); ");
         Goods goods = goodsRepository.findOne(goodsNum);
+        System.out.println(goods.toString());
         model.addAttribute("goods", goods);
 
     }
@@ -103,15 +115,18 @@ public class AdminController {
      */
     @PutMapping("/goods/update/{goodsNum}")
     @ResponseBody
-    public boolean update(@PathVariable Long goodsNum, @RequestBody Goods goods, Principal principal) {
-        System.out.println("================= goods update get view ======================");
+    public boolean update(@PathVariable Long goodsNum, @RequestBody Goods goods, Principal principal) throws Exception {
+        System.out.println(goods.getGoodsImg());
         String writer = principal.getName();
         if(!writer.equals("") &&  writer.trim().length() > 0) {
+
             Goods updateGoods = goodsRepository.findOne(goodsNum);
             updateGoods.setGoodsName(goods.getGoodsName());
             updateGoods.setGoodsDescription(goods.getGoodsDescription());
             updateGoods.setGoodsPrice(goods.getGoodsPrice());
+
             goodsRepository.save(updateGoods);
+
             return true;
         }else{
             return false;
@@ -127,8 +142,6 @@ public class AdminController {
     @DeleteMapping("/goods/delete/{goodsNum}")
     @ResponseBody
     public RetrunMessage goodsDelete(@PathVariable Long goodsNum, Principal principal) {
-        System.out.println("================= goods delete() ======================");
-        System.out.println("================= principal ======================" + principal.getName());
         RetrunMessage message = new RetrunMessage();
         String writer = principal.getName();
         if(!writer.equals("") &&  writer.trim().length() > 0) {
@@ -146,8 +159,9 @@ public class AdminController {
      * @return 상품 등록 뷰 리턴
      */
     @RequestMapping(value = "/goods/register", method = RequestMethod.GET)
-    public String getGoodsRegisterGet() throws Exception {
-        return "/admin/goods/register";
+    public void getGoodsRegisterGet(Model model) throws Exception {
+        List<GoodsCategory> category = goodsCategoryRepository.findAll();
+        model.addAttribute("category", JSONArray.fromObject(category));
     }
 
     /**
@@ -157,43 +171,28 @@ public class AdminController {
      * @return void
      */
     @RequestMapping(value = "/goods/register", method = RequestMethod.POST)
-    public String getGoodsRegisterPost(Model model, Goods goods) throws Exception {
-        System.out.println("/goods/register() ");
-        System.out.println(goods.toString());
-        goodsRepository.save(goods);
+    public String getGoodsRegisterPost(Model model, Goods goods,GoodsCategory goodsCategory,GoodsSubCategory goodsSubCategory, MultipartFile files) throws Exception {
+        if(files.isEmpty()){
+            goodsRepository.save(goods);
+        }else{
+            // todo 상품 수정에서도 file
+            String fileName = files.getOriginalFilename();
+            String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
+            do {
+                destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
+                destinationFile = new File(fileUrl+ destinationFileName);
+            } while (destinationFile.exists());{
+                destinationFile.getParentFile().mkdirs();
+                files.transferTo(destinationFile);
+            }
+
+//            goods.setGoodsImg(fileUrl+""+destinationFileName);
+            goods.setGoodsImg(destinationFileName);
+            goodsRepository.save(goods);
+        }
         return "redirect:/admin/index";
     }
 
-    // 상품 등록
-//    @RequestMapping(value = "/goods/register", method = RequestMethod.POST)
-//    public String postGoodsRegister(Goods goods, MultipartFile file) throws Exception {
-//
-//        String imgUploadPath = uploadPath + File.separator + "imgUpload";  // 이미지를 업로드할 폴더를 설정 = /uploadPath/imgUpload
-//        String ymdPath = UploadFileUtils.calcPath(imgUploadPath);  // 위의 폴더를 기준으로 연월일 폴더를 생성
-//        String fileName = null;  // 기본 경로와 별개로 작성되는 경로 + 파일이름
-//
-//        if(file.getOriginalFilename() != null && file.getOriginalFilename() != "") {
-//            // 파일 인풋박스에 첨부된 파일이 없다면(=첨부된 파일이 이름이 없다면)
-//
-//            fileName =  UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), ymdPath);
-//
-//            // gdsImg에 원본 파일 경로 + 파일명 저장
-//            goods.setGoodsImg(File.separator + "imgUpload" + ymdPath + File.separator + fileName);
-//            // gdsThumbImg에 썸네일 파일 경로 + 썸네일 파일명 저장
-////            goods.setGoodsThumbImg(File.separator + "imgUpload" + ymdPath + File.separator + "s" + File.separator + "s_" + fileName);
-//
-//        } else {  // 첨부된 파일이 없으면
-//            fileName = File.separator + "images" + File.separator + "none.png";
-//            // 미리 준비된 none.png파일을 대신 출력함
-//
-//            goods.setGdddsImg(fileName);
-////            goods.setGoodsThumbImg(fileName);
-//        }
-//
-//        adminService.register(vo);
-//
-//        return "redirect:/admin/index";
-//    }
 
 
 }

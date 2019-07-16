@@ -51,7 +51,7 @@
         </aside>
         <div id="container_box">
             <h2>상품 수정</h2>
-            <form onsubmit="return false;">
+            <form onsubmit="return false;" enctype="multipart/form-data">
                 <input type="hidden" id="goodsNum" name="goodsNum"  value="{{goods.goodsNum}}" />
                 <div class="inputArea">
                     <label>1차 분류</label>
@@ -59,7 +59,7 @@
                         <option value="">전체</option>
                     </select>
                     <label>2차 분류</label>
-                    <select class="category2" name="cateCode">
+                    <select class="category2" name="goodsCategoryCode">
                         <option value="">전체</option>
                     </select>
                 </div>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="inputArea">
                     <label for="goodsImg">이미지</label>
-                    <input type="file" id="goodsImg" name="file" />
+                    <input type="file" id="goodsImg" name="files" />
                     <div class="select_img"><img src="" /></div>
                 </div>
                 <div class="inputArea">

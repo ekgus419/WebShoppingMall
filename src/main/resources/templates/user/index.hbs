@@ -1,64 +1,53 @@
+<!DOCTYPE HTML>
+<!--
+	Visualize by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
 <html>
 <head>
-    <title>Admin</title>
-    <script src="/js/jquery/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="/js/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="/js/bootstrap/bootstrap-theme.min.css">
-    <script src="/js/bootstrap/bootstrap.min.js"></script>
-    <style>
-        body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
-        ul { padding:0; margin:0; list-style:none;  }
-
-        div#root { width:90%; margin:0 auto; }
-
-        header#header { font-size:60px; padding:20px 0; }
-        header#header h1 a { color:#000; font-weight:bold; }
-
-        nav#nav { padding:10px; text-align:right; }
-        nav#nav ul li { display:inline-block; margin-left:10px; }
-
-        section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
-        section#container::after { content:""; display:block; clear:both; }
-        aside { float:left; width:200px; }
-        div#container_box { float:right; width:calc(100% - 200px - 20px); }
-
-        aside ul li { text-align:center; margin-bottom:10px; }
-        aside ul li a { display:block; width:100%; padding:10px 0;}
-        aside ul li a:hover { background:#eee; }
-
-        footer#footer { background:#f9f9f9; padding:20px; }
-        footer#footer ul li { display:inline-block; margin-right:10px; }
-    </style>
+    <title>Visualize by TEMPLATED</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/main.css" />
 
 </head>
 <body>
-<div id="root">
+
+<!-- Wrapper -->
+<div id="wrapper">
+    <!-- Header -->
     <header id="header">
-        <div id="header_box">
-            {{> user/include/header}}
-        </div>
+
     </header>
+    <!-- Main -->
+    <section id="main">
+        <!-- Thumbnails -->
+        <section class="thumbnails">
+                {{#list}}
+                    {{#if listCount/2 = 0}}
+                    <div>
+                        <a href="">
+                            <img src="/uploads/img/{{goodsImg}}" alt="" />
+                            <h3>{{goodsName}}</h3>
+                        </a>
+                    </div>
+                    {{/if}}
+                {{/list}}
+        </section>
 
-    <nav id="nav">
-        <div id="nav_box">
-            {{> user/include/nav}}
-        </div>
-    </nav>
-
-    <section id="container">
-        <aside>
-            {{> user/include/aside}}
-        </aside>
-        <div id="container_box">
-            본문 영역
-        </div>
     </section>
 
+    <!-- Footer -->
     <footer id="footer">
-        <div id="footer_box">
-            {{> user/include/footer}}
-        </div>
+        <p>&copy; Untitled. All rights reserved. Design: <a href="http://templated.co">TEMPLATED</a>. Demo Images: <a href="http://unsplash.com">Unsplash</a>.</p>
     </footer>
+
 </div>
+<!-- Scripts -->
+<script src="/js/jquery/jquery-3.3.1.min.js"></script>
+<script src="/js/lib/jquery.poptrox.min.js"></script>
+<script src="/js/lib/skel.min.js"></script>
+<script src="/js/goods.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@ package com.dh.webservice.domain;
 
 import com.dh.webservice.config.WebBaseTimeConfig;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -20,6 +21,7 @@ import javax.persistence.*;
  */
 @Entity(name = "ROLE")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Table(name="ROLE", uniqueConstraints = @UniqueConstraint(columnNames = {"role_name"}, name="ROLE_UNIQUE_NAME"))
 public class Role extends WebBaseTimeConfig {
     @Id

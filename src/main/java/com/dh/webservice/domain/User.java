@@ -8,6 +8,7 @@ package com.dh.webservice.domain;
 
 import com.dh.webservice.config.WebBaseTimeConfig;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -20,6 +21,7 @@ import java.util.Set;
  */
 @Entity(name = "USER")
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class User extends WebBaseTimeConfig {
 
     @Id

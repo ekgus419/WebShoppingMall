@@ -52,13 +52,17 @@
         <div id="container_box">
             <h2>상품 등록</h2>
             <form method="post" action="/admin/goods/register" enctype="multipart/form-data">
+                <input type="hidden" id="categoryValue"  value="{{category}}" disabled  />
                 <div class="inputArea">
                     <label>1차 분류</label>
-                    <select class="category1">
+                    <select class="category1" name="category_code">
                         <option value="">전체</option>
+                        {{#each category}}
+                            <option value="{{categoryCode}}">{{categoryName}}</option>
+                        {{/each}}
                     </select>
                     <label>2차 분류</label>
-                    <select class="category2" name="cateCode">
+                    <select class="category2" name="category_sub_code">
                         <option value="">전체</option>
                     </select>
                 </div>
@@ -80,7 +84,7 @@
                 </div>
                 <div class="inputArea">
                     <label for="goodsImg">이미지</label>
-                    <input type="file" id="goodsImg" name="file" />
+                    <input type="file" id="goodsImg" name="files" />
                     <div class="select_img"><img src="" /></div>
                 </div>
                 <div class="inputArea">
@@ -94,7 +98,7 @@
             {{> admin/include/footer}}
         </div>
     </footer>
-
 </div>
+<script src="/js/app/goods.js"></script>
 </body>
 </html>

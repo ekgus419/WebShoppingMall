@@ -6,15 +6,21 @@
  */
 package com.dh.webservice.web;
 
+import com.dh.webservice.domain.Goods;
 import com.dh.webservice.domain.User;
+import com.dh.webservice.repository.GoodsRepository;
+import com.dh.webservice.repository.UserRepository;
 import com.dh.webservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * @title User 컨트롤러 파일
@@ -30,6 +36,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private GoodsRepository goodsRepository;
 
     /**
      * 회원 가입 페이지
@@ -66,15 +74,15 @@ public class UserController {
      * @return user main page view
      */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView index() {
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        log.debug(auth.toString());
-        User user = userService.findUserByUserEmail(auth.getName());
-        log.debug("user : " + user.toString());
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("user/index");
-        return modelAndView;
+    public void index(Model model) throws Exception {
+        System.out.println("get user index(); ");
+        List<Goods> list = goodsRepository.findAll();
+        System.out.println("goodsList.toStrong () +  " + list.toString());
+        int listCount = list.size();
+        System.out.println("goodsList.size () +  " + listCount);
+        model.addAttribute("list", list);
+        model.addAttribute("listCount", listCount);
+
     }
 
 }

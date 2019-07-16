@@ -54,3 +54,21 @@ dependencies {
 
 	compile group: 'org.apache.commons', name: 'commons-text', version: '1.6'
 
+	// 썸네일
+	compile group: 'net.coobird', name: 'thumbnailator', version: '0.4.8'
+	// 파일 업로드
+	compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+
+	// using the annotation processor
+	compile "org.springframework.boot:spring-boot-configuration-processor"
+
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+	compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+	compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.4', classifier:'jdk15'
+
+
+
+
+}
+

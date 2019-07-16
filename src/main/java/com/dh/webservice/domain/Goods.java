@@ -8,6 +8,7 @@ package com.dh.webservice.domain;
 
 import com.dh.webservice.config.WebBaseTimeConfig;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 /**
@@ -18,13 +19,9 @@ import javax.persistence.*;
  */
 @Entity(name = "GOODS")
 @Data
-@Table(name="GOODS", uniqueConstraints = @UniqueConstraint(columnNames = {"category_code_ref"}, name="FK_GOODS_CATEGORY"))
+@EqualsAndHashCode(callSuper = false)
+@Table(name="GOODS")
 public class Goods  extends WebBaseTimeConfig {
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "goods_idx")
-//    private Long goodsIdx;    // 상품 번호
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,8 +32,12 @@ public class Goods  extends WebBaseTimeConfig {
     private String goodsName; // 상품 이름
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_code_ref")
-    private GoodsCategory goodsCategoryCode;    // 분류
+    @JoinColumn(name = "category_code")
+    private GoodsCategory goodsCategory;    // 분류
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_sub_code")
+    private GoodsSubCategory goodsSubCategory;    // 하위분류
 
     @Column(name = "goods_price")
     private int goodsPrice;   // 상품 가격
@@ -50,6 +51,7 @@ public class Goods  extends WebBaseTimeConfig {
     @Column(name = "goods_img")
     private String goodsImg;      // 상품 이미지
 
-
+    @Column(name = "goods_Thumb_img")
+    private String goodsThumbImg;      // 상품 이미지
 
 }
