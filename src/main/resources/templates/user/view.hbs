@@ -1,0 +1,90 @@
+<html>
+<head>
+    <title>Admin</title>
+    <script src="/js/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="/js/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/js/bootstrap/bootstrap-theme.min.css">
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <style>
+        body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
+        ul { padding:0; margin:0; list-style:none;  }
+        div#root { width:90%; margin:0 auto; }
+        header#header { font-size:60px; padding:20px 0; }
+        header#header h1 a { color:#000; font-weight:bold; }
+        nav#nav { padding:10px; text-align:right; }
+        nav#nav ul li { display:inline-block; margin-left:10px; }
+        section#container { padding:20px 0; border-top:2px solid #eee; border-bottom:2px solid #eee; }
+        section#container::after { content:""; display:block; clear:both; }
+        aside { float:left; width:200px; }
+        div#container_box { float:right; width:calc(100% - 200px - 20px); }
+        aside ul li { text-align:center; margin-bottom:10px; }
+        aside ul li a { display:block; width:100%; padding:10px 0;}
+        aside ul li a:hover { background:#eee; }
+        footer#footer { background:#f9f9f9; padding:20px; }
+        footer#footer ul li { display:inline-block; margin-right:10px; }
+    </style>
+    <style>
+        .inputArea { margin:10px 0; }
+        select { width:100px; }
+        label { display:inline-block; width:70px; padding:5px; }
+        label[for='goodsDescription'] { display:block; }
+        input { width:150px; }
+        textarea#goodsDescription { width:400px; height:180px; }
+        .select_img img { margin:20px 0; }
+    </style>
+</head>
+<body>
+<div id="root">
+    <header id="header">
+        <div id="header_box">
+            {{> user/include/header}}
+        </div>
+    </header>
+    <nav id="nav">
+        <div id="nav_box">
+            {{> user/include/nav}}
+        </div>
+    </nav>
+    <section id="container">
+        <aside>
+            {{> user/include/aside}}
+        </aside>
+        <div id="container_box">
+            <h2>상품 상세</h2>
+            <form>
+                <input type="hidden" id="goodsNum" name="goodsNum" value="{{goods.goodsNum}}" />
+                <div class="inputArea">
+                    <label for="goodsName">상품명</label>
+                    <span><input type="text" id="goodsName" value="{{goods.goodsName}}" /></span>
+                </div>
+                <div class="inputArea">
+                    <label for="goodsPrice">상품가격</label>
+                    <span><input type="text" id="goodsPrice" value="{{goods.goodsPrice}}" /></span>
+                </div>
+                <div class="inputArea">
+                    <label for="goodsStock">상품수량</label>
+                    <span><input type="text" id="goodsStock" value="{{goods.goodsStock}}" /></span>
+                </div>
+                <div class="inputArea">
+                    <label for="goodsDescription">상품소개</label>
+                    <span><input type="text" id="goodsDescription" value="{{goods.goodsDescription}}" /></span>
+                </div>
+                <div class="inputArea">
+                    <div><b>이미지</b></div>
+                    <span><img src="/uploads/img/{{goods.goodsImg}}"  width="300" height="300"></span>
+                </div>
+                <div class="inputArea">
+                    <button type="button" id="btn_buy" class="btn btn-primary">구매</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <footer id="footer">
+        <div id="footer_box">
+            {{> user/include/footer}}
+        </div>
+    </footer>
+</div>
+<script src="/js/app/goods.js"></script>
+</body>
+</html>

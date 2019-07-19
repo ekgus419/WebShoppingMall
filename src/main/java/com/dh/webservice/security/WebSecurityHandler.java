@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebShoppingmall)
+ *
+ */
 package com.dh.webservice.security;
 
 
@@ -18,6 +24,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * @title Spring Security Handler 설정 파일
+ * @author cdh
+ * @FileName : WebSecurityHandler
+ *
+ */
 @Component
 public class WebSecurityHandler implements AuthenticationSuccessHandler, AuthenticationFailureHandler {
 
@@ -66,9 +78,8 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
                 }
             }
             if (isUser) {
-                return "/user/index";
+                return "/main";
             } else if (isAdmin) {
-                System.out.println("admin  /admin/index로 이동");
                 return "/admin/index";
             } else {
                 throw new IllegalStateException();

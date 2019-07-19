@@ -1,4 +1,16 @@
 <ul>
-	<li><a href="/goods/list">상품 목록</a></li>
-	<li><a href="/shop/allReply">상품 소감</a></li>
+    <!-- 1차 카테고리 -->
+    {{#category}}
+    <li>
+        <a href="">{{categoryName}}</a>
+        <ul class="low">
+            {{#goodsSubCategory}}
+            <!-- 2차 카테고리 -->
+            <li>
+                <a href="">{{categoryName}}</a>
+            </li>
+            {{/goodsSubCategory}}
+        </ul>
+    </li>
+    {{/category}}
 </ul>

@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebShoppingmall)
+ *
+ */
 package com.dh.webservice.service;
 
 import com.dh.webservice.domain.User;
@@ -12,6 +18,12 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.HashSet;
 
+/**
+ * @title UserService를 구현한 파일
+ * @author cdh
+ * @FileName : UserServiceImpl
+ *
+ */
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {

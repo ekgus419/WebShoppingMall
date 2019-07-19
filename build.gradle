@@ -27,12 +27,15 @@ repositories {
 ext['hibernate.version'] = '5.2.11.Final'
 
 dependencies {
+//	runtime('com.h2database:h2')
+	// Spring boot Project Basic Dependencies
+	compileOnly('org.projectlombok:lombok')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
-//	runtime('com.h2database:h2')
-	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+	// Spring boot Handelbars Dependencies
 	compile 'pl.allegro.tech.boot:handlebars-spring-boot-starter:0.2.15'
 	compile 'com.github.jknack:handlebars-helpers:4.0.7',
 			'com.github.jknack:handlebars-jackson2:4.0.7',
@@ -46,4 +49,28 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-devtools'
 
 	compile('org.springframework.boot:spring-boot-starter-security')
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+	compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.6'
+
+	compile group: 'org.apache.commons', name: 'commons-text', version: '1.6'
+
+	// 썸네일
+	compile group: 'net.coobird', name: 'thumbnailator', version: '0.4.8'
+	// 파일 업로드
+	compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+
+	// using the annotation processor
+	compile "org.springframework.boot:spring-boot-configuration-processor"
+
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+	compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+	compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.4', classifier:'jdk15'
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-hibernate5
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.9.9'
+
+
+
+
 }
+

@@ -1,25 +1,19 @@
 <ul>
     {{#unless user}}
-    <li>
-        <a href="/user/signin">로그인</a>
-    </li>
-    <li>
-        <a href="/user/signup">회원가입</a>
-    </li>
+        <li>
+            <a href="/user/signIn">로그인</a>
+        </li>
+        <li>
+            <a href="/user/signUp">회원가입</a>
+        </li>
     {{/unless}}
 
     {{#if user}}
-    <li>
-        {{#user.userName}}{{.}}{{/user.userName}}님 환영합니다.
-    </li>
-    <li>
-        <a href="/shop/cartList">카트 리스트</a>
-    </li>
-    <li>
-        <a href="/shop/orderList">주문 리스트</a>
-    </li>
-    <li>
-        <a href="/signout">로그아웃</a>
-    </li>
+        <li>
+            {{#user.userName}}{{.}}{{/user.userName}}님 환영합니다.
+        </li>
+        <li>
+            <a href="/signOut">로그아웃</a>
+        </li>
     {{/if}}
 </ul>
