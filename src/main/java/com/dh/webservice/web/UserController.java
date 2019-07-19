@@ -39,16 +39,24 @@ public class UserController {
     @Autowired
     private GoodsRepository goodsRepository;
 
+    @GetMapping("/signIn")
+    public ModelAndView signIn() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user/signIn");
+        return modelAndView;
+    }
+
+
     /**
      * 회원 가입 페이지
      * @return 회원 가입 페이지 뷰
      */
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public ModelAndView signup() {
+    @RequestMapping(value = "/signUp", method = RequestMethod.GET)
+    public ModelAndView signUp() {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
         modelAndView.addObject("user", user);
-        modelAndView.setViewName("user/signup");
+        modelAndView.setViewName("user/signUp");
         return modelAndView;
     }
 
@@ -56,33 +64,45 @@ public class UserController {
      * 회원 가입 페이지
      * @return 회원 가입 페이지
      */
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    @RequestMapping(value = "/signUp", method = RequestMethod.POST)
     @ResponseBody
-    public ModelAndView signup(@RequestBody User user) {
+    public ModelAndView signUp(@RequestBody User user) {
 
         ModelAndView modelAndView = new ModelAndView();
         userService.saveUser(user);
         modelAndView.addObject("user", new User());
-        modelAndView.setViewName("/user/signup?return=true");
+        modelAndView.setViewName("/user/signUp?return=true");
 
         return modelAndView;
     }
 
-
     /**
-     * 인덱스 페이지
-     * @return user main page view
+     * 상품 상세 보기
+     * @param model
+     * @param goodsNum
+     * @return 상품 상세 페이지
      */
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public void index(Model model) throws Exception {
-        System.out.println("get user index(); ");
-        List<Goods> list = goodsRepository.findAll();
-        System.out.println("goodsList.toStrong () +  " + list.toString());
-        int listCount = list.size();
-        System.out.println("goodsList.size () +  " + listCount);
-        model.addAttribute("list", list);
-        model.addAttribute("listCount", listCount);
+    @GetMapping("/view")
+    public void getGoodsView(Model model, @RequestParam("goodsNum") Long goodsNum) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Goods goods = goodsRepository.findOne(goodsNum);
+        User user = userService.findUserByUserEmail(auth.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("goods", goods);
 
     }
+
+    /**
+     * 상품 상세 보기
+     * @param
+     * @param
+     * @return 상품 상세 페이지
+     */
+    @PostMapping("/buy")
+    public void getGoodsBuy() throws Exception {
+       System.out.println("Test");
+    }
+
+
 
 }

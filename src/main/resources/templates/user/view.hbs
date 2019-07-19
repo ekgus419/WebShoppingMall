@@ -37,39 +37,30 @@
 <div id="root">
     <header id="header">
         <div id="header_box">
-            {{> admin/include/header}}
+            {{> user/include/header}}
         </div>
     </header>
     <nav id="nav">
         <div id="nav_box">
-            {{> admin/include/nav}}
+            {{> user/include/nav}}
         </div>
     </nav>
     <section id="container">
         <aside>
-            {{> admin/include/aside}}
+            {{> user/include/aside}}
         </aside>
         <div id="container_box">
             <h2>상품 상세</h2>
-            <form method="post" autocomplete="off">
+            <form>
                 <input type="hidden" id="goodsNum" name="goodsNum" value="{{goods.goodsNum}}" />
-<!--                <div class="inputArea">-->
-<!--                    <label>1차 분류</label>-->
-<!--                    <span class="category1"></span>-->
-<!--                    <label>2차 분류</label>-->
-<!--                    <span class="category2">{{goods.goodsCategoryCode}}</span>-->
-<!--                </div>-->
-
                 <div class="inputArea">
                     <label for="goodsName">상품명</label>
                     <span><input type="text" id="goodsName" value="{{goods.goodsName}}" /></span>
                 </div>
-
                 <div class="inputArea">
                     <label for="goodsPrice">상품가격</label>
                     <span><input type="text" id="goodsPrice" value="{{goods.goodsPrice}}" /></span>
                 </div>
-
                 <div class="inputArea">
                     <label for="goodsStock">상품수량</label>
                     <span><input type="text" id="goodsStock" value="{{goods.goodsStock}}" /></span>
@@ -83,17 +74,14 @@
                     <span><img src="/uploads/img/{{goods.goodsImg}}"  width="300" height="300"></span>
                 </div>
                 <div class="inputArea">
-                    <a href="/admin/goods/update/{{goods.goodsNum}}" class="btn btn-warning">
-                        <span class="text">수정</span>
-                    </a>
-                    <button type="button" id="btn_delete" class="btn btn-danger">삭제</button>
+                    <button type="button" id="btn_buy" class="btn btn-primary">구매</button>
                 </div>
             </form>
         </div>
     </section>
     <footer id="footer">
         <div id="footer_box">
-            {{> admin/include/footer}}
+            {{> user/include/footer}}
         </div>
     </footer>
 </div>

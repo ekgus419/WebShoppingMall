@@ -66,6 +66,8 @@ dependencies {
 	compile group: 'commons-io', name: 'commons-io', version: '2.6'
 
 	compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.4', classifier:'jdk15'
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-hibernate5
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.9.9'
 
 
 

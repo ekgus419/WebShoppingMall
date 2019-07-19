@@ -54,7 +54,7 @@ public class AdminController {
      * 인덱스 페이지
      * @return admin main page view
      */
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @GetMapping("/index")
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -69,7 +69,7 @@ public class AdminController {
      * @param model
      * @return 전체 상품 목록 List
      */
-    @RequestMapping(value = "/goods/list", method = RequestMethod.GET)
+    @GetMapping("/goods/list")
     public void getGoodsList(Model model) throws Exception {
         System.out.println("get goods list(); ");
         List<Goods> list = goodsRepository.findAll();
@@ -78,17 +78,18 @@ public class AdminController {
 
     }
 
+
     /**
      * 상품 상세 보기
      * @param model
      * @param goodsNum
      * @return 상품 상세 페이지
      */
-    @RequestMapping(value = "/goods/view", method = RequestMethod.GET)
+    @GetMapping("/view")
     public void getGoodsView(Model model, @RequestParam("goodsNum") Long goodsNum) throws Exception {
-        System.out.println("get goods view(); ");
         Goods goods = goodsRepository.findOne(goodsNum);
-        System.out.println(goods.toString());
+        List<GoodsCategory> category = goodsCategoryRepository.findAll();
+        model.addAttribute("category", category);
         model.addAttribute("goods", goods);
 
     }
@@ -99,7 +100,7 @@ public class AdminController {
      * @param goodsNum
      * @return 상품 수정 뷰 페이지
      */
-    @RequestMapping(value = "/goods/update/{goodsNum}", method = RequestMethod.GET)
+    @GetMapping("/goods/update/{goodsNum}")
     public String getGoodsModifyGet(Model model, @PathVariable Long goodsNum) throws Exception {
         System.out.println("get goods update(); ");
         Goods goods = goodsRepository.findOne(goodsNum);
@@ -115,11 +116,10 @@ public class AdminController {
      */
     @PutMapping("/goods/update/{goodsNum}")
     @ResponseBody
-    public boolean update(@PathVariable Long goodsNum, @RequestBody Goods goods, Principal principal) throws Exception {
+    public boolean update(@PathVariable Long goodsNum, @RequestBody Goods goods, Principal principal, MultipartFile files) throws Exception {
         System.out.println(goods.getGoodsImg());
         String writer = principal.getName();
         if(!writer.equals("") &&  writer.trim().length() > 0) {
-
             Goods updateGoods = goodsRepository.findOne(goodsNum);
             updateGoods.setGoodsName(goods.getGoodsName());
             updateGoods.setGoodsDescription(goods.getGoodsDescription());
@@ -133,6 +133,7 @@ public class AdminController {
         }
 
     }
+
 
     /**
      * 상품 삭제
@@ -158,7 +159,7 @@ public class AdminController {
      * 상품 등록
      * @return 상품 등록 뷰 리턴
      */
-    @RequestMapping(value = "/goods/register", method = RequestMethod.GET)
+    @GetMapping("/goods/register")
     public void getGoodsRegisterGet(Model model) throws Exception {
         List<GoodsCategory> category = goodsCategoryRepository.findAll();
         model.addAttribute("category", JSONArray.fromObject(category));
@@ -170,12 +171,12 @@ public class AdminController {
      * @param goods
      * @return void
      */
-    @RequestMapping(value = "/goods/register", method = RequestMethod.POST)
+    @PostMapping("/goods/register")
     public String getGoodsRegisterPost(Model model, Goods goods,GoodsCategory goodsCategory,GoodsSubCategory goodsSubCategory, MultipartFile files) throws Exception {
+
         if(files.isEmpty()){
             goodsRepository.save(goods);
         }else{
-            // todo 상품 수정에서도 file
             String fileName = files.getOriginalFilename();
             String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
             do {
@@ -186,7 +187,6 @@ public class AdminController {
                 files.transferTo(destinationFile);
             }
 
-//            goods.setGoodsImg(fileUrl+""+destinationFileName);
             goods.setGoodsImg(destinationFileName);
             goodsRepository.save(goods);
         }

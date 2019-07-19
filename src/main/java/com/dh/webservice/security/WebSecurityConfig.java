@@ -87,9 +87,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/").permitAll()
+                    .antMatchers("/main").permitAll()
                     .antMatchers("/login").permitAll()
-                    .antMatchers("/signin").permitAll()
-                    .antMatchers("/user/signup").permitAll()
+                    .antMatchers("/listData/**").permitAll()
+                    .antMatchers("/uploads/img/**").permitAll()
+                    .antMatchers("/user/signIn").permitAll()
+                    .antMatchers("/user/signUp").permitAll()
                     .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest().authenticated()
                 .and()
                     .csrf().disable()
@@ -101,8 +104,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .failureHandler(securityHandler)
                 .and()
                     .logout()
-                        .logoutSuccessUrl("/signin")
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/signout"))
+                        .logoutSuccessUrl("/signIn")
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/signOut"))
                     .and()
                         .exceptionHandling().accessDeniedPage("/access-denied");
     }

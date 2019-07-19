@@ -18,5 +18,6 @@ import lombok.Data;
 public class RetrunMessage {
 
     private boolean result;
+    private String message;
 
 }
