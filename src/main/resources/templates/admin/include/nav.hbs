@@ -1,12 +1,11 @@
 <ul>
-
 {{#if user}}
     <li>
-        <span>{{#user.userName}}{{.}}{{/user.userName}}님 환영합니다.</span>
+        <span><b>{{#user.userName}}{{.}}{{/user.userName}}</b>님 환영합니다.</span>
     </li>
-<!--    <li>-->
-<!--        <a href="/">일반 화면</a>-->
-<!--    </li>-->
+    <li>
+        <a href="/main">일반 화면</a>
+    </li>
     <li>
         <a href="/signOut">로그아웃</a>
     </li>

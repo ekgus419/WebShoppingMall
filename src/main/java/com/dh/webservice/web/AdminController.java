@@ -71,9 +71,10 @@ public class AdminController {
      */
     @GetMapping("/goods/list")
     public void getGoodsList(Model model) throws Exception {
-        System.out.println("get goods list(); ");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserEmail(auth.getName());
+        model.addAttribute("user", user);
         List<Goods> list = goodsRepository.findAll();
-        System.out.println("goodsList.toStrong () +  " + list.toString());
         model.addAttribute("list", list);
 
     }
@@ -102,7 +103,6 @@ public class AdminController {
      */
     @GetMapping("/goods/update/{goodsNum}")
     public String getGoodsModifyGet(Model model, @PathVariable Long goodsNum) throws Exception {
-        System.out.println("get goods update(); ");
         Goods goods = goodsRepository.findOne(goodsNum);
         model.addAttribute("goods", goods);
         return "/admin/goods/update";
@@ -117,7 +117,6 @@ public class AdminController {
     @PutMapping("/goods/update/{goodsNum}")
     @ResponseBody
     public boolean update(@PathVariable Long goodsNum, @RequestBody Goods goods, Principal principal, MultipartFile files) throws Exception {
-        System.out.println(goods.getGoodsImg());
         String writer = principal.getName();
         if(!writer.equals("") &&  writer.trim().length() > 0) {
             Goods updateGoods = goodsRepository.findOne(goodsNum);
@@ -161,7 +160,10 @@ public class AdminController {
      */
     @GetMapping("/goods/register")
     public void getGoodsRegisterGet(Model model) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUserEmail(auth.getName());
         List<GoodsCategory> category = goodsCategoryRepository.findAll();
+        model.addAttribute("user", user);
         model.addAttribute("category", JSONArray.fromObject(category));
     }
 

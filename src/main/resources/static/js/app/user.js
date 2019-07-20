@@ -5,41 +5,23 @@ $(document).ready(function(text, reviver){
         init: function () {
             var _this = this;
             var offset = 5;
-            // 관리자 수정페이지에서 수정 버튼 누를시
-            $("#btn_update").on("click", function () {
-                _this.getUpdate();
-            });
-            // 관리자 상세페이지에서 삭제 버튼 누를시
-            $("#btn_delete").on("click", function () {
-                _this.getDelete();
-            });
-
-            // 더보기 버튼 누를시 ver1
-            // $("#btn_more").on("click", function (e) {
-            //     console.log(e);
-            //     count = count + 5;
-            //     alert(count);
-            //     _this.getListData(count);
-            // });
-
             // 더보기 버튼 누를시 ver2
             // -> ajax load 후 이벤트 안걸려서 수정
             $('body').on('click','#btn_more',function(){
                 offset = offset + 5;
                 _this.getListData(offset);
             });
-
-            // main 상세페이지에서 구매 버튼 누를시
-            $("#btn_buy").on("click", function () {
-                _this.getBuy();
+            // 회원 가입 버튼 누를시
+            $('#btn_signup').on('click', function () {
+                _this.save();
             });
+
             return this;
         },
         getListData: function (offset) {
             $.ajax({
                 type: "GET",
                 url: "/listData?offset=" + offset,
-                // url: "/listData?offset=" + offset + "&limit=" + limit,
             }).done(function (data) {
                 console.log(data);
                 var content="";
@@ -67,7 +49,7 @@ $(document).ready(function(text, reviver){
                     }
 
                 }
-                content += "<tr id='btn_add'><td> <button type=\"button\" id=\"btn_more\" class=\"btn btn-primary pull-right \">더보기</button></td></tr>";
+                content += "<tr id='btn_add'><td> <button type=\"button\" id=\"btn_more\" class=\"btn btn-primary  \">더보기</button></td></tr>";
                 $("#btn_add").remove();
                 $(content).appendTo("#table");
 
@@ -76,136 +58,112 @@ $(document).ready(function(text, reviver){
                 console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
             });
         },
-        getUpdate: function () {
+        save: function () {
             var data = {
-                goodsNum: $("#goodsNum").val(),
-                goodsName: $("#goodsName").val(),
-                goodsPrice: $("#goodsPrice").val(),
-                goodsStock: $("#goodsStock").val(),
-                goodsDescription: $("#goodsDescription").val(),
-                goodsImg : $("#goodsImg").val() ? $("#goodsImg").val() : ""
+                userName: $('#user_name').val(),
+                userPwd: $('#user_pwd').val(),
+                user_phone: $('#user_phone').val(),
+                userEmail: $('#user_email').val(),
+                userAddr1: $('#user_addr1').val(),
+                userAddr2: $('#user_addr2').val(),
+                userAddr3: $('#user_addr3').val()
             };
-            $.ajax({
-                type: "PUT",
-                url: "/admin/goods/update/" + data.goodsNum,
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(data)
-            }).done(function (result) {
-                console.log(result);
-                if(result == true){
-                    alert("수정되었습니다.");
-                    location.href= "/admin/index/" ;
-                }else{
-                    alert("잠시후 다시 시도해주세요.");
-                    history.go(0);
-                }
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                alert("관리자에게 문의해주세요.");
-                console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
-            });
-        },
-        getDelete: function () {
-            var goodsNum =  $("#goodsNum").val();
-            $.ajax({
-                type: "DELETE",
-                url: "/admin/goods/delete/" + goodsNum,
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-            }).done(function (data) {
-                console.log(data);
-                if(data.result === true){
-                    alert("삭제되었습니다.");
-                    location.href= "/admin/index/" ;
-                }else{
-                    alert("잠시후 다시 시도해주세요.");
-                    history.go(0);
-                }
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                alert("관리자에게 문의해주세요.");
-                console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
-            });
-        },
-        getBuy: function () {
-            if(confirm("구매 하시겠습니까?")){
-                // 구매 할 경우
-                var data = {
-                    goodsNum: $("#goodsNum").val(),
-                    goodsName: $("#goodsName").val(),
-                    goodsPrice: $("#goodsPrice").val(),
-                };
-                $.ajax({
-                    type: "POST",
-                    url: "/user/buy",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(data)
-                }).done(function (data) {
-                    if(data.restult === true){
-                        alert(data.message);
-                    }else{
-                        alert(data.message);
-                    }
-                    console.log(data);
-                    console.log(data);
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alert("관리자에게 문의해주세요.");
-                    console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
-                });
-            }
-        },
 
+            console.log(data);
+
+            return false;
+
+            $.ajax({
+                type: 'POST',
+                url: '/user/signUp',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data)
+            }).done(function () {
+                alert('가입되었습니다.');
+                location.href("/login");
+            }).fail(function (error) {
+                alert("error" +error);
+                console.log(error);
+            });
+        }
     };
 
     goods.init();
 
-    // 상품 등록 후 이미지 목록에 표시
-    $("#goodsImg").change(function(){
-        if(this.files && this.files[0]) {
-            var reader = new FileReader;
-            reader.onload = function(data){
-                $(".select_img img").attr("src", data.target.result).width(500);
+
+    // 회원가입시 form 데이터 검증
+    $("#signUpForm").validate({
+        focusCleanup: true, //true이면 잘못된 필드에 포커스가 가면 에러를 지움
+        focusInvalid:false, //유효성 검사후 포커스를 무효필드에 둠 꺼놓음
+        onclick: false, //클릭시 발생됨 꺼놓음
+        onfocusout:false, //포커스가 아웃되면 발생됨 꺼놓음
+        onkeyup:false, //키보드 키가 올라가면 발생됨 꺼놓음
+        rules: {
+            user_email : { required: true, email: true},
+            user_name: { required: true, minlength: 2},
+            user_phone: { required: true, minlength: 11},
+            user_addr1: { required: true, minlength: 2},
+            user_addr2: { required: true, minlength: 2},
+            user_addr3: { required: true, minlength: 2},
+            user_pwd: { required: true, minlength: 4 },
+            user_repwd: { equalTo: "#user_pwd"}
+        },
+        messages: {
+            user_name: {
+                required: "닉네임을 입력하세요.",
+                minlength: "닉네임은 2자 이상 입력해주세요."
+            },
+            user_phone: {
+                required: "연락처를 입력하세요.",
+                minlength: "연락처는 11자 이상 입력해주세요."
+            },
+            user_addr1: {
+                required: "주소(시)를 입력하세요.",
+                minlength: "주소(시)는 2자 이상 입력해주세요."
+            },
+            user_addr2: {
+                required: "주소(구)를 입력하세요.",
+                minlength: "주소(구)는 2자 이상 입력해주세요."
+            },
+            user_addr3: {
+                required: "주소(동)를 입력하세요.",
+                minlength: "주소(동)는 2자 이상 입력해주세요."
+            },
+            user_pwd: {
+                required: "비밀번호를 입력하세요." ,
+                minlength: "비밀번호는 4자 이상 입력해주세요."
+            },
+            user_repwd: {
+                equalTo: "입력하신 비밀번호가 다릅니다."
+            },
+            user_email: {
+                required: "이메일을 입력하세요.",
+                user_email: "잘못된 이메일 형식입니다."
             }
-            reader.readAsDataURL(this.files[0]);
+        },
+        errorPlacement: function (){
+            //validator는 기본적으로 validation 실패시 메세지를 우측에 표시하게 되어있다 원치않으면 입력해놓을것 ★안쓰면 에러표시됨★
+            console.log("errorPlacement")
+        },
+        invalidHandler: function(form, validator){
+            //입력값이 잘못된 상태에서 submit 할때 호출
+            var errors = validator.numberOfInvalids();
+            if (errors) {
+                alert(validator.errorList[0].message);
+                validator.errorList[0].element.focus();
+            }
         }
     });
 
 
-    // // 상품 등록 Page -> 카테고리
-    // var jsonData = JSON.parse($("#categoryValue").val());
-
-    $(".category1").change(function(){
-        // 상품 등록 Page -> 카테고리
-        var jsonData = JSON.parse($("#categoryValue").val());
-
-        var cate2Arr = new Array();
-        var cate2Obj = new Object();
-        for(var i = 0; i < jsonData.length; i++) {
-            for(var j = 0; j < jsonData[i].goodsSubCategory.length; j++) {
-                cate2Obj = new Object();  //초기화
-                cate2Obj.categoryName = jsonData[i].goodsSubCategory[j].categoryName;
-                cate2Obj.categoryCodeRef = jsonData[i].goodsSubCategory[j].categoryCodeRef;
-                cate2Obj.categorySubCode = jsonData[i].goodsSubCategory[j].categorySubCode;
-                cate2Arr.push(cate2Obj);
-            }
-        }
-
-        var cate2Select = $("select.category2");
-
-        cate2Select.children().remove();
-
-        $("option:selected", this).each(function(){
-            var selectVal = $(this).val();
-            cate2Select.append("<option value=''>전체</option>");
-            for(var i = 0; i < cate2Arr.length; i++) {
-                if(selectVal == cate2Arr[i].categoryCodeRef) {
-                    cate2Select.append("<option value='" + cate2Arr[i].categorySubCode + "'>"
-                        + cate2Arr[i].categoryName + "</option>");
-                }
-            }
-        });
-    }); // end of category1.chang();
-
 });
 
 
+// 더보기 버튼 누를시 ver1
+// $("#btn_more").on("click", function (e) {
+//     console.log(e);
+//     count = count + 5;
+//     alert(count);
+//     _this.getListData(count);
+// });

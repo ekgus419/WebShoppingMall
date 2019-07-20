@@ -42,19 +42,16 @@ public class User extends WebBaseTimeConfig {
     private String userPhone;
 
     @Column(name = "user_addr1")
-    private String userAddr1;
+    private String userAddr1;   // 시
 
     @Column(name = "user_addr2")
-    private String userAddr2;
+    private String userAddr2;   // 구
 
     @Column(name = "user_addr3")
-    private String userAddr3;
+    private String userAddr3;   // 동
 
     @Column(name = "active")
     private int active;
-
-//    @Column(name = "userVerify")
-//    private String userVerify;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_idx"), inverseJoinColumns = @JoinColumn(name = "role_idx"))

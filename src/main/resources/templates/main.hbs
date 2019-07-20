@@ -67,8 +67,8 @@
                     <table id="table" class="table">
                         <thead>
                         <tr>
-                            <th>상품</th>
-                            <th>상품명</th>
+                            <th  class="text-center">상품</th>
+                            <th  class="text-center">상품명</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -79,11 +79,14 @@
                                         <img src="/uploads/img/{{goodsImg}}" width="200" height="200">
                                     </a>
                                 </td>
-                                <td>{{goodsName}}</td>
+                                <td class="text-center" style="vertical-align:middle;">{{goodsName}}</td>
                             </tr>
                         {{/list}}
-                        <tr id="btn_add">
-                            <td> <button type="button" id="btn_more" class="btn btn-primary">더보기</button></td>
+
+                        <tr>
+                            <td>
+                                <button type="button" id="btn_more" class="btn btn-primary">더보기</button>
+                            </td>
                         </tr>
                     </table>
                 </form>
@@ -101,31 +104,6 @@
         </div>
     </footer>
 </div>
-<script >
-function moreList(){
-    $.ajax({
-        url : "/main",
-        type : "GET",
-        success : function(data){
-            console.log(data);
-            var content="";
-            // for(var i=0; i<data.hashMapList.length; i++){
-            //     content +=
-            //         "<tr>"+
-            //         "<td>"+data.hashMapList[i].area+"</td>"+
-            //         "<td>"+data.hashMapList[i].name+"</td>"+
-            //         "</tr>";
-            // }
-            // content+="<tr id='addbtn'><td colspan='5'><div class='btns'><a href='javascript:moreList();' class='btn'>더보기</a></div>  </td></tr>";
-            // $('#addbtn').remove();//remove btn
-            // $(content).appendTo("#table");
-        }, error:function(request,status,error){
-            console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-        }
-    });
-};
-</script>
-<script src="/js/app/goods.js"></script>
-
+<script src="/js/app/user.js"></script>
 </body>
 </html>

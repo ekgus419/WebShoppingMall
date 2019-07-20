@@ -1,19 +1,18 @@
 <ul>
-    {{#unless user}}
-        <li>
-            <a href="/user/signIn">로그인</a>
-        </li>
-        <li>
-            <a href="/user/signUp">회원가입</a>
-        </li>
-    {{/unless}}
-
-    {{#if user}}
-        <li>
-            {{#user.userName}}{{.}}{{/user.userName}}님 환영합니다.
-        </li>
-        <li>
-            <a href="/signOut">로그아웃</a>
-        </li>
+<!--    todo 관리자가 로그인한경우 관리자화면으로 -->
+    {{#if user.userEmail}}
+    <li>
+        <span><b>{{#user.userName}}{{.}}{{/user.userName}}</b>님 환영합니다.</span>
+    </li>
+    <li>
+        <a href="/signOut">로그아웃</a>
+    </li>
+    {{else}}
+    <li>
+        <a href="/user/signIn">로그인</a>
+    </li>
+    <li>
+        <a href="/user/signUp">회원가입</a>
+    </li>
     {{/if}}
 </ul>

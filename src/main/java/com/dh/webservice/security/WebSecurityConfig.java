@@ -66,14 +66,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception { // security resources 허가
-        web.ignoring().antMatchers("/resources/static/**", "/css/**", "/images/**","/js/**");
-
+        web.ignoring().antMatchers("/resources/static/**", "/css/**", "/images/**","/js/**","/fonts/**");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
        auth
-//                .userDetailsService(userDetailsServiceImpl)
                 .authenticationProvider(authenticationProvider())
                 .jdbcAuthentication()
                 .usersByUsernameQuery(userQuery)
@@ -104,7 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .failureHandler(securityHandler)
                 .and()
                     .logout()
-                        .logoutSuccessUrl("/signIn")
+                        .logoutSuccessUrl("/main")
                         .logoutRequestMatcher(new AntPathRequestMatcher("/signOut"))
                     .and()
                         .exceptionHandling().accessDeniedPage("/access-denied");

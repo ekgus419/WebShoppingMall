@@ -7,8 +7,11 @@
 package com.dh.webservice.web;
 
 import com.dh.webservice.domain.Goods;
+import com.dh.webservice.domain.Payment;
+import com.dh.webservice.domain.RetrunMessage;
 import com.dh.webservice.domain.User;
 import com.dh.webservice.repository.GoodsRepository;
+import com.dh.webservice.repository.PaymentRepository;
 import com.dh.webservice.repository.UserRepository;
 import com.dh.webservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -38,6 +42,9 @@ public class UserController {
 
     @Autowired
     private GoodsRepository goodsRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @GetMapping("/signIn")
     public ModelAndView signIn() {
@@ -93,14 +100,31 @@ public class UserController {
     }
 
     /**
-     * 상품 상세 보기
+     * 결제 데이터 누적
      * @param
      * @param
-     * @return 상품 상세 페이지
+     * @return RetrunMessage
      */
     @PostMapping("/buy")
-    public void getGoodsBuy() throws Exception {
-       System.out.println("Test");
+    @ResponseBody
+    public RetrunMessage getGoodsBuy(@RequestBody Payment payment, Principal principal) throws Exception {
+        System.out.println("toStr() ;" + payment.toString());
+        System.out.println( "2?" + payment.getGoodsNum());
+
+        RetrunMessage message = new RetrunMessage();
+
+        String writer = principal.getName();
+        if(!writer.equals("") &&  writer.trim().length() > 0) {
+            payment.setUserEmail(writer);
+            paymentRepository.save(payment);
+            message.setResult(true);
+            message.setMessage("결제가 완료되었습니다.");
+            return message;
+        }else{
+            message.setResult(false);
+            message.setMessage("결제가 실패하였습니다.");
+            return message;
+        }
     }
 
 
