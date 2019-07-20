@@ -1,4 +1,5 @@
 $(document).ready(function(text, reviver){
+    // todo admin , user 소스 구분, 파일 새로만들것
     // 글쓰기
     var goods = {
         init: function () {
@@ -59,14 +60,14 @@ $(document).ready(function(text, reviver){
                             // + $("a").attr("href", aHref)
                             // + $("img").attr("src", imgSrc)
                             +"</td>"
-                            +"<td>" + data.content[i].goodsName + "</td>"
+                            +"<td class='text-center' style='vertical-align:middle;'>" + data.content[i].goodsName + "</td>"
                         "</tr>";
                         // $("img").attr("src", imgSrc);
                         // console.log($("img").attr("src", imgSrc));
                     }
 
                 }
-                content += "<tr id='btn_add'><td> <button type=\"button\" id=\"btn_more\" class=\"btn btn-primary\">더보기</button></td></tr>";
+                content += "<tr id='btn_add'><td> <button type=\"button\" id=\"btn_more\" class=\"btn btn-primary pull-right \">더보기</button></td></tr>";
                 $("#btn_add").remove();
                 $(content).appendTo("#table");
 
@@ -106,7 +107,6 @@ $(document).ready(function(text, reviver){
         },
         getDelete: function () {
             var goodsNum =  $("#goodsNum").val();
-            alert(goodsNum);
             $.ajax({
                 type: "DELETE",
                 url: "/admin/goods/delete/" + goodsNum,
@@ -129,18 +129,24 @@ $(document).ready(function(text, reviver){
         getBuy: function () {
             if(confirm("구매 하시겠습니까?")){
                 // 구매 할 경우
-                alert("test");
                 var data = {
                     goodsNum: $("#goodsNum").val(),
                     goodsName: $("#goodsName").val(),
                     goodsPrice: $("#goodsPrice").val(),
                 };
-                console.log(data);
-                return false;
                 $.ajax({
-                    type: "DELETE",
+                    type: "POST",
                     url: "/user/buy",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data)
                 }).done(function (data) {
+                    if(data.restult === true){
+                        alert(data.message);
+                    }else{
+                        alert(data.message);
+                    }
+                    console.log(data);
                     console.log(data);
                 }).fail(function (jqXHR, textStatus, errorThrown) {
                     alert("관리자에게 문의해주세요.");
