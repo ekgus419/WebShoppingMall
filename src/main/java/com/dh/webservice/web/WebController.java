@@ -65,7 +65,7 @@ public class WebController {
      * @return main page view
      */
     @GetMapping("/main")
-    public ModelAndView main(@PageableDefault(sort = { "createdDate" }, direction = Direction.DESC, size = 5) Pageable pageable ) throws Exception {
+    public ModelAndView main(@PageableDefault(sort = { "createdDate" }, direction = Direction.DESC, size = 6) Pageable pageable ) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserEmail(auth.getName());

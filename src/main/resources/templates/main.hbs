@@ -68,18 +68,20 @@
                         <thead>
                         <tr>
                             <th>상품</th>
-                            <th>상품명</th>
+                            <th>상품</th>
+                            <th>상품</th>
                         </tr>
                         </thead>
                         <tbody>
                         {{#list}}
-                            <tr>
+                            <tr class="tr-items" data-rowIndex="{{@index}}">
                                 <td>
                                     <a href="/user/view?goodsNum={{goodsNum}}">
                                         <img src="/uploads/img/{{goodsImg}}" width="200" height="200">
                                     </a>
+                                    <br />
+                                    {{goodsName}}
                                 </td>
-                                <td>{{goodsName}}</td>
                             </tr>
                         {{/list}}
                         <tr id="btn_add">
@@ -126,6 +128,5 @@ function moreList(){
 };
 </script>
 <script src="/js/app/goods.js"></script>
-
 </body>
 </html>

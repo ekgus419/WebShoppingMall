@@ -48,7 +48,7 @@ public class AdminController {
 
     File destinationFile;
     String destinationFileName;
-    String fileUrl = "D:\\WebShoppingMall\\src\\main\\resources\\static\\uploads\\img\\";
+    String fileUrl = "C:\\upload\\";
 
     /**
      * 인덱스 페이지

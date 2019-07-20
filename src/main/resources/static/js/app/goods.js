@@ -200,6 +200,21 @@ $(document).ready(function(text, reviver){
         });
     }); // end of category1.chang();
 
+    $(".tr-items").each(function() {
+        var rowIndex = $(this).attr("data-rowIndex");
+        if(rowIndex % 3 != 0) {
+            var itemsHtml = $(this).html();
+            var prev = $(this).prev();
+            if(prev.length < 3) {
+                prev.append(itemsHtml);
+            } else {
+                var next = $(this).next();
+                if(next) {
+                    next.append(itemsHtml);
+                }
+            }
+            $(this).remove();
+        }
+    });
+
 });
-
-
