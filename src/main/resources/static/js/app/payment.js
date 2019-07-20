@@ -59,6 +59,7 @@ $(document).ready(function(text, reviver){
                     msg += '결제 금액 : ' + rsp.paid_amount;
                     msg += '카드 승인번호 : ' + rsp.apply_num;
                 } else {
+                    // todo 결제에 실패했을경우 insert한 데이터 삭제처리해야함. -> flag 필드 추가 y,n
                     var msg = '결제에 실패하였습니다.';
                     msg += "(" + rsp.error_msg + ".)";
                 }

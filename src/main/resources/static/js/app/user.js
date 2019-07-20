@@ -26,7 +26,9 @@ $(document).ready(function(text, reviver){
                 console.log(data);
                 var content="";
                 for(var i=0; i<data.size; i++){
-                    if(data.content[i].goodsNum === undefined){
+
+                    // todo 마지
+                    if(!data.content[i]){
                         alert("가져올 데이터가 없습니다.");
                         return false;
                     }else{
@@ -49,8 +51,9 @@ $(document).ready(function(text, reviver){
                     }
 
                 }
-                content += "<tr id='btn_add'><td> <button type=\"button\" id=\"btn_more\" class=\"btn btn-primary  \">더보기</button></td></tr>";
+                // todo remove 순서
                 $("#btn_add").remove();
+                content += "<tr id='btn_add'><td> <button type=\"button\" id=\"btn_more\" class=\"btn btn-primary  \">더보기</button></td></tr>";
                 $(content).appendTo("#table");
 
             }).fail(function (jqXHR, textStatus, errorThrown) {
