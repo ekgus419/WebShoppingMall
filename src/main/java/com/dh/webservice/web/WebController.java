@@ -65,7 +65,7 @@ public class WebController {
      * @return main page view
      */
     @GetMapping("/main")
-    public ModelAndView main(@PageableDefault(sort = { "createdDate" }, direction = Direction.DESC, size = 5) Pageable pageable ) throws Exception {
+    public ModelAndView main(@PageableDefault(sort = { "createdDate" }, direction = Direction.DESC, size = 6) Pageable pageable ) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserEmail(auth.getName());
@@ -89,16 +89,8 @@ public class WebController {
      */
     @GetMapping("/listData")
     @ResponseBody
-//    public Page<Goods> listData(@PageableDefault(sort = { "createdDate" }, direction = Direction.DESC, size = 5) Pageable pageable){
     public Page<Goods> listData(int offset){
-        // to do 0,5 -> 5, 10, 5,15....
-        // to do 0,5 -> 5, 10, 5,15....
-        // 10, 15
-        // 15, 20
-        // 20, 25
-        // limit 몇개 가져올건지?
-        // offset 몇번째부터 가져올건지?
-        int limit = 5;
+        int limit = 6;
         Page<Goods> list = goodsRepository.findAll(new AjaxPageRequest(offset, limit));
         return list;
     }

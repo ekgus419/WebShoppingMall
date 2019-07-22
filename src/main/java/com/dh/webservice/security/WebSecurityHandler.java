@@ -47,14 +47,12 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
             String targetUrl = determineTargetUrl(authentication);
 
             if (response.isCommitted()) {
-                System.out.println("Response has already been committed. Unable to redirect to : targetUrl -> " + targetUrl);
                 return;
             }
             redirectStrategy.sendRedirect(request, response, targetUrl);
         }
 
         protected void clearAuthenticationAttributes(HttpServletRequest request) {
-            System.out.println("clearAuthenticationAttributes()");
             HttpSession session = request.getSession(false);
             if (session == null) {
                 return;
@@ -62,12 +60,14 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
             session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
         }
 
-
+        /**
+         * 로그인 성공 후 권한에 맞는 url을 설정한다.
+         * @return url
+         */
         protected String determineTargetUrl(Authentication authentication) {
             boolean isUser = false;
             boolean isAdmin = false;
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            System.out.println("determineTargetUrl()");
             for (GrantedAuthority grantedAuthority : authorities) {
                 if (grantedAuthority.getAuthority().equals("USER")) {
                     isUser = true;
@@ -87,7 +87,10 @@ public class WebSecurityHandler implements AuthenticationSuccessHandler, Authent
 
         }
 
-        // 로그인 실패 Handler
+        /**
+         * 로그인 실패 Handler
+         * @return void
+         */
         @Override
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
             // exception 에 따른 실패 메시지 분기처리 필요

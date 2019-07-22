@@ -69,23 +69,24 @@
                         <tr>
                             <th  class="text-center">상품</th>
                             <th  class="text-center">상품명</th>
+                            <th  class="text-center">상품명</th>
                         </tr>
                         </thead>
                         <tbody>
                         {{#list}}
-                            <tr>
+                            <tr class="tr-items" data-rowIndex="{{@index}}">
                                 <td>
                                     <a href="/user/view?goodsNum={{goodsNum}}">
                                         <img src="/uploads/img/{{goodsImg}}" width="200" height="200">
                                     </a>
+                                    <br />
+                                    <span>{{goodsName}}</span>
                                 </td>
-                                <td class="text-center" style="vertical-align:middle;">{{goodsName}}</td>
                             </tr>
                         {{/list}}
-
                         <tr>
-                            <td colspan="2">
-                                <button type="button" id="btn_more" class="btn btn-primary">더보기</button>
+                            <td colspan="3">
+                                <button type="button" id="btn_more" class="btn btn-primary pull-right">더보기</button>
                             </td>
                         </tr>
                     </table>

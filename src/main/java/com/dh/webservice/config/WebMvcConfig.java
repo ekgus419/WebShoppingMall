@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -23,12 +24,20 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
+    /**
+     * passwordEncoder
+     * @return bCryptPasswordEncoder
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
     }
 
+    /**
+     * getViewResolver
+     * @return view resolver를 반환한다.
+     */
     @Bean
     public ViewResolver getViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -37,10 +46,23 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
+    /**
+     * configureDefaultServletHandling
+     * @return void
+     */
     @Override
     public void configureDefaultServletHandling(
         DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
+    }
+
+    /**
+     * addResourceHandlers
+     * @return void
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/img/**").addResourceLocations("file:///C:/uploads/img/");
     }
 
 

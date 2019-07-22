@@ -1,39 +1,55 @@
 $(document).ready(function(text, reviver){
+
+    // 결제 flag 설정
+    var flag = "Yes";
+
     // 결제
     var payment = {
         init: function () {
             var _this = this;
             // main 상세페이지에서 구매 버튼 누를시
             $("#btn_buy").on("click", function () {
-                _this.getBuy();
+                _this.getBuy(flag);
             });
             return this;
         },
-        getBuy: function () {
-            if(confirm("구매 하시겠습니까?")){
-                // 구매 할 경우
+        getBuy: function (flag) {
+            if(flag === "Yes"){
+               if(confirm("구매 하시겠습니까?")){
+                   // 구매 할 경우
+                   var data = {
+                       goodsNum: $("#goodsNum").val(),
+                       goodsName: $("#goodsName").val(),
+                       goodsPrice: $("#goodsPrice").val(),
+                       flag : flag
+                   };
+               } else {
+                   return false;
+               }
+
+            } else if(flag === "No"){
                 var data = {
-                    goodsNum: $("#goodsNum").val(),
-                    goodsName: $("#goodsName").val(),
-                    goodsPrice: $("#goodsPrice").val(),
-                };
-                $.ajax({
-                    type: "POST",
-                    url: "/user/buy",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(data)
-                }).done(function (data) {
-                    if(data.result === true){
-                        payment.getPaymentMoule();
-                    }else{
-                        alert(data.message);
-                    }
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alert("관리자에게 문의해주세요.");
-                    console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
-                });
+                    flag : flag
+                }
+            } else{
+                alert("잠시후 다시 시도해주세요.");
+                return false;
             }
+
+            $.ajax({
+                type: "POST",
+                url: "/user/buy",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data)
+            }).done(function (data) {
+                if(data.result === true){
+                    payment.getPaymentMoule();
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert("관리자에게 문의해주세요.");
+                console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
+            });
         },
         getPaymentMoule: function () {
             var IMP = window.IMP; // 생략가능
@@ -59,9 +75,13 @@ $(document).ready(function(text, reviver){
                     msg += '결제 금액 : ' + rsp.paid_amount;
                     msg += '카드 승인번호 : ' + rsp.apply_num;
                 } else {
-                    // todo 결제에 실패했을경우 insert한 데이터 삭제처리해야함. -> flag 필드 추가 y,n
-                    var msg = '결제에 실패하였습니다.';
-                    msg += "(" + rsp.error_msg + ".)";
+                    flag = "No";
+                    payment.getBuy(flag);
+
+                    var msg = rsp.error_msg + ".";
+                    // var msg = '결제에 실패하였습니다.';
+                    // msg += "(" + rsp.error_msg + ".)";
+
                 }
                 alert(msg);
             });

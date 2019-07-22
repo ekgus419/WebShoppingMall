@@ -1,16 +1,21 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebShoppingmall)
+ *
+ */
 package com.dh.webservice.domain;
 
 import com.sun.istack.internal.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 
 import javax.persistence.*;
 
 /**
- * @title GOODS Entity를 정의한다.
+ * @title PAYMENT Entity를 정의한다.
  * @author cdh
- * @FileName GOODS
+ * @FileName PAYMENT
  *
  */
 @Entity(name = "PAYMENT")
@@ -39,5 +44,9 @@ public class Payment {
     @NotNull
     @Column(name = "user_email") // 결제자
     private String userEmail;
+
+    @NotNull
+    @Column(name = "flag") // 결제 flag 설정
+    private String flag;
 
 }

@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+
 /**
  * @title GOODS Entity를 정의한다.
  * @author cdh

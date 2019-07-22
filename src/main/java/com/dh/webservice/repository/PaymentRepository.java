@@ -8,7 +8,10 @@ package com.dh.webservice.repository;
 
 import com.dh.webservice.domain.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @title Payment Entity Query 설정 파일
@@ -18,5 +21,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
+
+    Payment findTopByOrderByPaymentNumDesc();
 
 }

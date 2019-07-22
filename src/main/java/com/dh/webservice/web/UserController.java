@@ -108,19 +108,26 @@ public class UserController {
     @PostMapping("/buy")
     @ResponseBody
     public RetrunMessage getGoodsBuy(@RequestBody Payment payment, Principal principal) throws Exception {
-        System.out.println("toStr() ;" + payment.toString());
-        System.out.println( "2?" + payment.getGoodsNum());
 
         RetrunMessage message = new RetrunMessage();
 
         String writer = principal.getName();
         if(!writer.equals("") &&  writer.trim().length() > 0) {
-            payment.setUserEmail(writer);
-            paymentRepository.save(payment);
-            message.setResult(true);
-            message.setMessage("결제가 완료되었습니다.");
+            if(payment.getFlag().equals("Yes")){
+                payment.setUserEmail(writer);
+                paymentRepository.save(payment);
+                message.setResult(true);
+                message.setMessage("결제가 완료되었습니다.");
+            }else{
+                Payment updatePayment = paymentRepository.findTopByOrderByPaymentNumDesc();
+                updatePayment.setFlag("No");
+                System.out.println(updatePayment.toString());
+                paymentRepository.save(updatePayment);
+                message.setResult(false);
+            }
             return message;
-        }else{
+        }
+        else{
             message.setResult(false);
             message.setMessage("결제가 실패하였습니다.");
             return message;
