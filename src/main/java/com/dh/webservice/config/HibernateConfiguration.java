@@ -6,6 +6,7 @@
  */
 package com.dh.webservice.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +30,9 @@ public class HibernateConfiguration {
     public ObjectMapper hibernateAwareObjectMapper(){
 
         ObjectMapper mapper = new ObjectMapper();
+        // 직렬화 사용시
+//        mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         mapper.registerModule(new Hibernate5Module());
-
         return mapper;
     }
 }

@@ -107,7 +107,6 @@ public class AdminController {
         int totalPages = page.getTotalPages();
         // 전체 데이터수
         long listCount = page.getTotalElements();
-
         model.addObject("currentPage", currentPage);
         model.addObject("totalPages", totalPages);
         model.addObject("list", page);
@@ -123,7 +122,7 @@ public class AdminController {
      * @param goodsNum
      * @return 상품 상세 페이지
      */
-    @GetMapping("/view")
+    @GetMapping("/goods/view")
     public void getGoodsView(Model model, @RequestParam("goodsNum") Long goodsNum) throws Exception {
         Goods goods = goodsRepository.findOne(goodsNum);
         List<GoodsCategory> category = goodsCategoryRepository.findAll();
@@ -151,22 +150,28 @@ public class AdminController {
      * @param goods
      * @return 수정된 게시글 Entity
      */
-    @PutMapping("/goods/update/{goodsNum}")
+//    @PutMapping("/goods/update/{goodsNum}")
+    @PostMapping("/goods/update/{goodsNum}")
     @ResponseBody
     public boolean update(@PathVariable Long goodsNum, @RequestBody Goods goods, Principal principal, MultipartFile files) throws Exception {
-        String writer = principal.getName();
-        if(!writer.equals("") &&  writer.trim().length() > 0) {
-            Goods updateGoods = goodsRepository.findOne(goodsNum);
-            updateGoods.setGoodsName(goods.getGoodsName());
-            updateGoods.setGoodsDescription(goods.getGoodsDescription());
-            updateGoods.setGoodsPrice(goods.getGoodsPrice());
 
-            goodsRepository.save(updateGoods);
+        System.out.println("files : + " + files.toString());
+        System.out.println("Goods : + " + goods.toString());
+        return false;
 
-            return true;
-        }else{
-            return false;
-        }
+//        String writer = principal.getName();
+//        if(!writer.equals("") &&  writer.trim().length() > 0) {
+//            Goods updateGoods = goodsRepository.findOne(goodsNum);
+//            updateGoods.setGoodsName(goods.getGoodsName());
+//            updateGoods.setGoodsDescription(goods.getGoodsDescription());
+//            updateGoods.setGoodsPrice(goods.getGoodsPrice());
+//
+//            goodsRepository.save(updateGoods);
+//
+//            return true;
+//        }else{
+//            return false;
+//        }
 
     }
 
@@ -211,7 +216,7 @@ public class AdminController {
      * @return void
      */
     @PostMapping("/goods/register")
-    public String getGoodsRegisterPost(Model model, Goods goods,GoodsCategory goodsCategory,GoodsSubCategory goodsSubCategory, MultipartFile files) throws Exception {
+    public String getGoodsRegisterPost(Model model, Goods goods, MultipartFile files) throws Exception {
 
         if(files.isEmpty()){
             goodsRepository.save(goods);
