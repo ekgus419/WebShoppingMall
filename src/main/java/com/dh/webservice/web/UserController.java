@@ -8,11 +8,10 @@ package com.dh.webservice.web;
 
 import com.dh.webservice.domain.Goods;
 import com.dh.webservice.domain.Payment;
-import com.dh.webservice.domain.RetrunMessage;
+import com.dh.webservice.domain.ReturnResult;
 import com.dh.webservice.domain.User;
 import com.dh.webservice.repository.GoodsRepository;
 import com.dh.webservice.repository.PaymentRepository;
-import com.dh.webservice.repository.UserRepository;
 import com.dh.webservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.List;
 
 /**
  * @title User 컨트롤러 파일
@@ -69,19 +67,17 @@ public class UserController {
 
     /**
      * 회원 가입 페이지
-     * @return 회원 가입 페이지
+     * @return ReturnResult
      */
     @RequestMapping(value = "/signUp", method = RequestMethod.POST)
     @ResponseBody
-    public ModelAndView signUp(@RequestBody User user) {
-
-        ModelAndView modelAndView = new ModelAndView();
+    public ReturnResult signUp(@RequestBody User user) {
+        ReturnResult result = new ReturnResult();
         userService.saveUser(user);
-        modelAndView.addObject("user", new User());
-        modelAndView.setViewName("/user/signUp?return=true");
-
-        return modelAndView;
+        result.setResult(true);
+        return result;
     }
+
 
     /**
      * 상품 상세 보기
@@ -101,36 +97,33 @@ public class UserController {
 
     /**
      * 결제 데이터 누적
-     * @param
-     * @param
-     * @return RetrunMessage
+     * @param payment
+     * @param principal
+     * @return ReturnResult
      */
     @PostMapping("/buy")
     @ResponseBody
-    public RetrunMessage getGoodsBuy(@RequestBody Payment payment, Principal principal) throws Exception {
+    public ReturnResult getGoodsBuy(@RequestBody Payment payment, Principal principal) throws Exception {
 
-        RetrunMessage message = new RetrunMessage();
+        ReturnResult result = new ReturnResult();
 
         String writer = principal.getName();
         if(!writer.equals("") &&  writer.trim().length() > 0) {
             if(payment.getFlag().equals("Yes")){
                 payment.setUserEmail(writer);
                 paymentRepository.save(payment);
-                message.setResult(true);
-                message.setMessage("결제가 완료되었습니다.");
+                result.setResult(true);
             }else{
                 Payment updatePayment = paymentRepository.findTopByOrderByPaymentNumDesc();
                 updatePayment.setFlag("No");
-                System.out.println(updatePayment.toString());
                 paymentRepository.save(updatePayment);
-                message.setResult(false);
+                result.setResult(false);
             }
-            return message;
+            return result;
         }
         else{
-            message.setResult(false);
-            message.setMessage("결제가 실패하였습니다.");
-            return message;
+            result.setResult(false);
+            return result;
         }
     }
 

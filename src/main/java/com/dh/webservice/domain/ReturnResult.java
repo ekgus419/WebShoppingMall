@@ -15,9 +15,8 @@ import lombok.Data;
  *
  */
 @Data
-public class RetrunMessage {
+public class ReturnResult {
 
     private boolean result;
-    private String message;
 
 }

@@ -4,13 +4,30 @@ $(document).ready(function(text, reviver){
     var goods = {
         init: function () {
             var _this = this;
+
             // 관리자 수정페이지에서 수정 버튼 누를시
             $("#btn_update").on("click", function () {
                 _this.getUpdate();
             });
+
             // 관리자 상세페이지에서 삭제 버튼 누를시
             $("#btn_delete").on("click", function () {
                 _this.getDelete();
+            });
+
+            // 상품 목록 페이징 처리
+            $('#pagenation').bootpag({
+                total: $("#totalPages").val(), // total pages
+                page: $("#currentPage").val(), // default page
+                maxVisible: 10, // visible pagination
+                leaps: false,
+                firstLastUse: true,
+                next: '<img src="/images/paging/next_1.gif" alt="뒤로버튼" />',
+                prev: '<img src="/images/paging/prev_2.gif" alt="맨앞으로버튼" />',
+                first: '<img src="/images/paging/prev_1.gif" alt="맨앞으로버튼" />',
+                last: '<img src="/images/paging/next_2.gif" alt="맨뒤로버튼" />'
+            }).unbind("page").bind("page").on("page", function (event, pageNo) {
+                window.location.replace("/admin/goods/list?pageNo=" + pageNo + "&pageSize=10");
             });
 
             return this;

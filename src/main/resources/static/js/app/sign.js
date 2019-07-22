@@ -1,6 +1,45 @@
 $(document).ready(function(text, reviver){
 
-    // 회원가입시 form 데이터 검증
+    var Sign = {
+        init: function () {
+            var _this = this;
+            return this;
+        },
+        save: function () {
+            var data = {
+                userName: $('#user_name').val(),
+                userPwd: $('#user_pwd').val(),
+                userPhone: $('#user_phone').val(),
+                userEmail: $('#user_email').val(),
+                userAddr1: $('#user_addr1').val(),
+                userAddr2: $('#user_addr2').val(),
+                userAddr3: $('#user_addr3').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/user/signUp',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data)
+            }).done(function (data) {
+                if(data.result === true){
+                    alert('가입되었습니다.');
+                    location.href = "/login";
+                }
+            }).fail(function (error) {
+                alert("error" +error);
+                console.log(error);
+            });
+        },
+    };
+
+    Sign.init();
+
+
+
+
+    // 회원가입시 form 데이터 검증 및 Ajax 로직 처리
     $("#signUpForm").validate({
         focusCleanup: true, //true이면 잘못된 필드에 포커스가 가면 에러를 지움
         focusInvalid:false, //유효성 검사후 포커스를 무효필드에 둠 꺼놓음
@@ -61,7 +100,11 @@ $(document).ready(function(text, reviver){
                 alert(validator.errorList[0].message);
                 validator.errorList[0].element.focus();
             }
-        }
+        },
+        submitHandler: function() { //모든 항목이 통과되면 호출됨 ★showError 와 함께 쓰면 실행하지않는다★
+            Sign.save();
+        },
+
     });
 
 

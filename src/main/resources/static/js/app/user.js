@@ -1,7 +1,5 @@
 $(document).ready(function(text, reviver){
-    // todo admin , user 소스 구분, 파일 새로만들것
-    // 글쓰기
-    var goods = {
+    var User = {
         init: function () {
             var _this = this;
             var offset = 5;
@@ -11,12 +9,8 @@ $(document).ready(function(text, reviver){
                 offset = offset + 5;
                 _this.getListData(offset);
             });
-            // 회원 가입 버튼 누를시
-            // $('#btn_signup').on('click', function () {
-            //     _this.save();
-            // });
 
-            goods.render();
+            User.render();
             return this;
         },
         getListData: function (offset) {
@@ -49,37 +43,12 @@ $(document).ready(function(text, reviver){
                 $("#btn_more").parent().remove();
                 content += "<tr id='btn_add'><td colspan='3'> <button type=\"button\" id=\"btn_more\" class=\"btn btn-primary pull-right \">더보기</button></td></tr>";
                 $(content).appendTo("#table");
-                goods.render();
+                User.render();
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert("관리자에게 문의해주세요.");
                 console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
             });
         },
-        // save: function () {
-        //     var data = {
-        //         userName: $('#user_name').val(),
-        //         userPwd: $('#user_pwd').val(),
-        //         user_phone: $('#user_phone').val(),
-        //         userEmail: $('#user_email').val(),
-        //         userAddr1: $('#user_addr1').val(),
-        //         userAddr2: $('#user_addr2').val(),
-        //         userAddr3: $('#user_addr3').val()
-        //     };
-        //
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '/user/signUp',
-        //         dataType: 'json',
-        //         contentType: 'application/json; charset=utf-8',
-        //         data: JSON.stringify(data)
-        //     }).done(function () {
-        //         alert('가입되었습니다.');
-        //         location.href("/login");
-        //     }).fail(function (error) {
-        //         alert("error" +error);
-        //         console.log(error);
-        //     });
-        // },
         render: function () {
             // 상품 3개씩
             $(".tr-items").each(function() {
@@ -101,9 +70,7 @@ $(document).ready(function(text, reviver){
         }
     };
 
-    goods.init();
-
-
+    User.init();
 
 });
 

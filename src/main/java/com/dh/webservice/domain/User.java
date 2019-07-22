@@ -9,8 +9,10 @@ package com.dh.webservice.domain;
 import com.dh.webservice.config.WebBaseTimeConfig;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 /**
@@ -29,24 +31,31 @@ public class User extends WebBaseTimeConfig {
     @Column(name = "user_idx")
     private Long userIdx;
 
+    @NotNull
     @Column(name = "user_email")
     private String userEmail;
 
+    @NotNull
     @Column(name = "user_pwd")
     private String userPwd;
 
+    @NotNull
     @Column(name = "user_name")
     private String userName;
 
+    @NotNull
     @Column(name = "user_phone")
     private String userPhone;
 
+    @NotNull
     @Column(name = "user_addr1")
     private String userAddr1;   // 시
 
+    @NotNull
     @Column(name = "user_addr2")
     private String userAddr2;   // 구
 
+    @NotNull
     @Column(name = "user_addr3")
     private String userAddr3;   // 동
 

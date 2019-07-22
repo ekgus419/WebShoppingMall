@@ -8,12 +8,14 @@ package com.dh.webservice.web;
 import com.dh.webservice.domain.*;
 import com.dh.webservice.repository.GoodsCategoryRepository;
 import com.dh.webservice.repository.GoodsRepository;
+import com.dh.webservice.service.AdminService;
 import com.dh.webservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @title Admin 컨트롤러 파일
@@ -42,6 +45,9 @@ public class AdminController {
 
     @Autowired
     private GoodsRepository goodsRepository;
+
+    @Autowired
+    private AdminService adminService;
 
     @Autowired
     private GoodsCategoryRepository goodsCategoryRepository;
@@ -67,19 +73,49 @@ public class AdminController {
 
     /**
      * 상품 목록
-     * @param model
+     * @param pageNo
+     * @param pageSize
+     * @param principal
      * @return 전체 상품 목록 List
      */
+//    @GetMapping("/goods/list")
+//    public void getGoodsList(Model model) throws Exception {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        User user = userService.findUserByUserEmail(auth.getName());
+//        model.addAttribute("user", user);
+//        List<Goods> list = goodsRepository.findAll();
+//        model.addAttribute("list", list);
+//
+//    }
     @GetMapping("/goods/list")
-    public void getGoodsList(Model model) throws Exception {
+    public ModelAndView list(Optional<Integer> pageNo, Optional<Integer> pageSize, Principal principal){
+        String writer = principal.getName();
+
+        int evalPageSize = pageSize.orElse(10);
+        int evalPage = (pageNo.orElse(0) < 1) ? 0 : pageNo.get() - 1;
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("auth : " + auth.getName());
         User user = userService.findUserByUserEmail(auth.getName());
-        model.addAttribute("user", user);
-        List<Goods> list = goodsRepository.findAll();
-        model.addAttribute("list", list);
 
+        // ajax Data
+        Page<Goods> page = adminService.getfindAll(evalPage, evalPageSize);
+        ModelAndView model = new ModelAndView("/admin/goods/list");
+        // 현재 페이지
+        int currentPage = page.getNumber()+1;
+        // 전체 페이지
+        int totalPages = page.getTotalPages();
+        // 전체 데이터수
+        long listCount = page.getTotalElements();
+
+        model.addObject("currentPage", currentPage);
+        model.addObject("totalPages", totalPages);
+        model.addObject("list", page);
+        model.addObject("listCount", listCount);
+        model.addObject("user", user);
+
+        return model;
     }
-
 
     /**
      * 상품 상세 보기
@@ -142,8 +178,8 @@ public class AdminController {
      */
     @DeleteMapping("/goods/delete/{goodsNum}")
     @ResponseBody
-    public RetrunMessage goodsDelete(@PathVariable Long goodsNum, Principal principal) {
-        RetrunMessage message = new RetrunMessage();
+    public ReturnResult goodsDelete(@PathVariable Long goodsNum, Principal principal) {
+        ReturnResult message = new ReturnResult();
         String writer = principal.getName();
         if(!writer.equals("") &&  writer.trim().length() > 0) {
             goodsRepository.delete(goodsNum);

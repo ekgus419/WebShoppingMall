@@ -1,9 +1,15 @@
 <ul>
-<!--    todo 관리자가 로그인한경우 관리자화면으로 -->
     {{#if user.userEmail}}
     <li>
         <span><b>{{#user.userName}}{{.}}{{/user.userName}}</b>님 환영합니다.</span>
     </li>
+        {{#user.roles}}
+            {{#if roleName = "ADMIN"}}
+                <li>
+                    <a href="/admin/index">관리자화면</a>
+                </li>
+            {{/if}}
+        {{/user.roles}}
     <li>
         <a href="/signOut">로그아웃</a>
     </li>

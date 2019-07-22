@@ -6,7 +6,9 @@
  */
 package com.dh.webservice.service;
 
+import com.dh.webservice.domain.Goods;
 import com.dh.webservice.domain.User;
+import org.springframework.data.domain.Page;
 
 /**
  * @title Repository에 설정되어있는 기본 Query를 사용하지 않고 재정의하여 사용한다.
@@ -14,7 +16,9 @@ import com.dh.webservice.domain.User;
  * @FileName : UserService
  *
  */
-public interface UserService {
-    User findUserByUserEmail(String email);
-    void saveUser(User user);
+public interface AdminService {
+    // 리스트 보기
+    public Page<Goods> getfindAll(Integer pageNo, Integer pageSize);
+
 }
+
