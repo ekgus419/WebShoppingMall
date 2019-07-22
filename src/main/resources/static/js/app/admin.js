@@ -36,31 +36,30 @@ $(document).ready(function(text, reviver){
         },
         getUpdate: function () {
             var goodsNum = $("#goodsNum").val();
-            // var data = {
-            //     goodsNum: $("#goodsNum").val(),
-            //     goodsName: $("#goodsName").val(),
-            //     goodsPrice: $("#goodsPrice").val(),
-            //     goodsStock: $("#goodsStock").val(),
-            //     goodsDescription: $("#goodsDescription").val(),
-            //     files : $("#goodsImg").val() ? $("#goodsImg").val() : ""
-            // };
-            // // var data = $("#updateForm").serialize();
+            var data = {
+                goodsNum: $("#goodsNum").val(),
+                goodsName: $("#goodsName").val(),
+                goodsPrice: $("#goodsPrice").val(),
+                goodsStock: $("#goodsStock").val(),
+                goodsDescription: $("#goodsDescription").val(),
+                files : $("#goodsImg").val() ? $("#goodsImg").val() : ""
+            };
     ;
-            // var data = new FormData();
-            // data.append("files",$("#goodsImg")[0]);
+            // var formData = new FormData(data);
+
+           console.log($("input[name=files]")[0].files[0]);
+
             var formData = new FormData();
-            formData.append("files",$("input[name=goodsImg]")[0].files[0]);
-
+            formData.append("files", $("input[name=files]")[0].files[0]);
             console.log(formData);
-
-
             return false;
+
             $.ajax({
                 type: "POST",
                 url: "/admin/goods/update/" + goodsNum,
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(data)
+                data: JSON.stringify(formData)
             }).done(function (result) {
                 console.log(result);
                 if(result == true){
