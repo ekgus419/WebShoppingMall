@@ -2,16 +2,20 @@
     <!-- 1차 카테고리 -->
     <li><b>카테고리</b></li>
     {{#category}}
-    <li>
-        <a href="">{{categoryName}}</a>
-        <ul class="low">
-            {{#goodsSubCategory}}
-            <!-- 2차 카테고리 -->
+        <form onsubmit="return false;">
             <li>
                 <a href="">{{categoryName}}</a>
+<!--                <input type="hidden" id="categoryCode" name="categoryCode" value="{{categoryCode}}" />-->
+                <ul class="low">
+                    {{#goodsSubCategory}}
+                    <!-- 2차 카테고리 -->
+                    <li>
+                        <a href="">{{categoryName}}</a>
+                    </li>
+                    {{/goodsSubCategory}}
+                </ul>
             </li>
-            {{/goodsSubCategory}}
-        </ul>
-    </li>
+        </form>
     {{/category}}
 </ul>
+

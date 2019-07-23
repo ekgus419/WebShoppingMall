@@ -25,6 +25,12 @@ header#header h1 a {
     font-weight: bold;
 }
 
+header#header div#header_box {
+    text-align: center;
+    padding: 30px 0;
+}
+
+
 nav#nav {
     padding: 10px;
     text-align: right;

@@ -25,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -84,16 +85,19 @@ public class WebController {
 
     /**
      * Ajax List Data
-     * @param
+     * @param offset
      * @return pageable
      */
     @GetMapping("/listData")
     @ResponseBody
-    public Page<Goods> listData(int offset){
+//    public Page<Goods> listData(int offset){
+    public Page<Goods> listData(@RequestParam("offset") int offset){
         int limit = 6;
         Page<Goods> list = goodsRepository.findAll(new AjaxPageRequest(offset, limit));
+        System.out.println("list.toString();  :" + list.toString());
         return list;
     }
+
 
     /**
      * login 페이지
