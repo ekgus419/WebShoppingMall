@@ -12,11 +12,19 @@ $(document).ready(function(text, reviver){
 
             $("#categoryForm").on("click", function(e) {
                 e.preventDefault();
-                var goodsCategory =  $("input[name='categoryCode']").val();
-                var goodsSubCategory =  $("input[name='categorySubCode']").val();
-                // 변수값 세팅 및 offset 처리
-                alert(goodsCategory);
-                alert(goodsSubCategory);
+                // var goodsCategory =  $("input[name='categoryCode']").val();
+                // var goodsSubCategory =  $("input[name='categorySubCode']").val();
+                // // 변수값 세팅 및 offset 처리
+                // alert(goodsCategory);
+                // alert(goodsSubCategory);
+                // 체크박스 배열 Loop
+                $("input[name=categoryCode]").each(function(){
+                    // 해당 체크박스의 Value 가져오기
+                    // var value = $(this).val();
+                    // alert(value);
+                });
+
+
             });
 
             User.render();

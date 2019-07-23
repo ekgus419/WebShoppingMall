@@ -5,14 +5,14 @@
             <!-- 1차 카테고리 -->
             <li>
                 <a href="#">{{categoryName}}</a>
-                <input type="hidden" name="categoryCode" value="{{categoryCode}}" data-rowIndex="{{@index}}"  />
+                <input type="hidden" name="categoryCode" value="{{categoryCode}}" />
                 <ul class="low">
                     {{#goodsSubCategory}}
                     <!-- 2차 카테고리 -->
                     <li>
                         <a href="#" >{{categoryName}}</a>
                     </li>
-                    <input type="hidden" name="categorySubCode" value="{{categorySubCode}}" data-rowIndex="{{@index}}" />
+                    <input type="hidden" name="categorySubCode" value="{{categorySubCode}}"  />
                     {{/goodsSubCategory}}
                 </ul>
             </li>
