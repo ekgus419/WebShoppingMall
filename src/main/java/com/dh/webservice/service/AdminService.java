@@ -9,6 +9,7 @@ package com.dh.webservice.service;
 import com.dh.webservice.domain.Goods;
 import com.dh.webservice.domain.User;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @title Repository에 설정되어있는 기본 Query를 사용하지 않고 재정의하여 사용한다.
@@ -18,7 +19,8 @@ import org.springframework.data.domain.Page;
  */
 public interface AdminService {
     // 리스트 보기
-    public Page<Goods> getfindAll(Integer pageNo, Integer pageSize);
+    Page<Goods> getfindAll(Integer pageNo, Integer pageSize);
 
+    String fileUpload(MultipartFile file) throws Exception;
 }
 

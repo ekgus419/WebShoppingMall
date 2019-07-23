@@ -7,23 +7,20 @@
 package com.dh.webservice.service;
 
 import com.dh.webservice.domain.Goods;
-import com.dh.webservice.domain.Role;
-import com.dh.webservice.domain.User;
 import com.dh.webservice.repository.GoodsRepository;
-import com.dh.webservice.repository.RoleRepository;
-import com.dh.webservice.repository.UserRepository;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.io.File;
 
 /**
  * @title UserService를 구현한 파일
@@ -50,17 +47,23 @@ public class AdminServiceImpl implements AdminService {
         return goodsRepository.findAll(pr);
     }
 
-//    @Override
-//    public Page<Board> getfindAll(Integer pageNo, Integer pageSize) {
-//        PageRequest pr = new PageRequest(pageNo, pageSize,
-//                new Sort(
-//                        new Order(Direction.DESC,"groupNo"),
-//                        new Order(Direction.ASC,"groupSeq"),
-//                        new Order(Direction.ASC,"depth")
-//                )
-//        );
-//
-//        return boardRepository.findAll(pr);
-//    }
+    @Override
+    public String fileUpload(MultipartFile file) throws Exception {
+
+        File destinationFile;
+        String destinationFileName;
+        String fileUrl = "C:\\uploads\\img\\";
+        String fileName = file.getOriginalFilename();
+        String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
+        do {
+            destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
+            destinationFile = new File(fileUrl+ destinationFileName);
+        } while (destinationFile.exists());{
+            destinationFile.getParentFile().mkdirs();
+            file.transferTo(destinationFile);
+        }
+
+        return destinationFileName;
+    }
 
 }
