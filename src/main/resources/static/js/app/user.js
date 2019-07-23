@@ -27,6 +27,11 @@ $(document).ready(function(text, reviver){
 
             });
 
+            $(".btn-category").on("click", function(e) {
+                e.preventDefault();
+                var goodsSubCategory = this.attr("data-code");
+            });
+
             User.render();
             return this;
         },
