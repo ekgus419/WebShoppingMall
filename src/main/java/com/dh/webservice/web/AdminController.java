@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
@@ -158,21 +160,9 @@ public class AdminController {
             updateGoods.setGoodsPrice(goods.getGoodsPrice());
 
             if(!file.isEmpty()){
-                try {
-                    String fileName = file.getOriginalFilename();
-                    String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
-                    do {
-                        destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
-                        destinationFile = new File(fileUrl+ destinationFileName);
-                    } while (destinationFile.exists());{
-                        destinationFile.getParentFile().mkdirs();
-                        file.transferTo(destinationFile);
-                    }
+                this.uploadFile(file);
+                if(StringUtils.isNotEmpty(destinationFileName)) {
                     updateGoods.setGoodsImg(destinationFileName);
-                }
-                catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 }
             }
             goodsRepository.save(updateGoods);
@@ -229,20 +219,30 @@ public class AdminController {
         if(file.isEmpty()){
             goodsRepository.save(goods);
         }else{
-            String fileName = file.getOriginalFilename();
-            String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
-            do {
-                destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
-                destinationFile = new File(fileUrl+ destinationFileName);
-            } while (destinationFile.exists());{
-                destinationFile.getParentFile().mkdirs();
-                file.transferTo(destinationFile);
+            this.uploadFile(file);
+            if(StringUtils.isNotEmpty(destinationFileName)) {
+                goods.setGoodsImg(destinationFileName);
             }
-
-            goods.setGoodsImg(destinationFileName);
             goodsRepository.save(goods);
         }
         return "redirect:/admin/index";
+    }
+
+    /**
+     * 파일 업로드
+     * @param file
+     * @throws IOException
+     */
+    private void uploadFile(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
+        do {
+            destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
+            destinationFile = new File(fileUrl+ destinationFileName);
+        } while (destinationFile.exists());{
+            destinationFile.getParentFile().mkdirs();
+            file.transferTo(destinationFile);
+        }
     }
 
 
