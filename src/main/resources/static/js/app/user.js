@@ -10,13 +10,24 @@ $(document).ready(function(text, reviver){
                 _this.getListData(offset);
             });
 
+            $("#categoryForm").on("click", function(e) {
+                e.preventDefault();
+                var goodsCategory =  $("input[name='categoryCode']").val();
+                var goodsSubCategory =  $("input[name='categorySubCode']").val();
+                // 변수값 세팅 및 offset 처리
+                alert(goodsCategory);
+                alert(goodsSubCategory);
+            });
+
             User.render();
             return this;
         },
         getListData: function (offset) {
+            // var goodsCategory =  $("input[name='categoryCode']").val();
+            // var goodsSubCategory =  $("input[name='categorySubCode']").val();
             $.ajax({
                 type: "GET",
-                url: "/listData?offset=" + offset,
+                url: "/listData?offset=" + offset + "&goodsCategory=" + goodsCategory + "&goodsSubCategory=" + goodsSubCategory ,
             }).done(function (data) {
                 var content="";
                 for(var i=0; i<data.size; i++){

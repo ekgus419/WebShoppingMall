@@ -1,21 +1,22 @@
 <ul>
-    <!-- 1차 카테고리 -->
     <li><b>카테고리</b></li>
+    <form id="categoryForm">
     {{#category}}
-        <form onsubmit="return false;">
+            <!-- 1차 카테고리 -->
             <li>
-                <a href="">{{categoryName}}</a>
-<!--                <input type="hidden" id="categoryCode" name="categoryCode" value="{{categoryCode}}" />-->
+                <a href="#">{{categoryName}}</a>
+                <input type="hidden" name="categoryCode" value="{{categoryCode}}" data-rowIndex="{{@index}}"  />
                 <ul class="low">
                     {{#goodsSubCategory}}
                     <!-- 2차 카테고리 -->
                     <li>
-                        <a href="">{{categoryName}}</a>
+                        <a href="#" >{{categoryName}}</a>
                     </li>
+                    <input type="hidden" name="categorySubCode" value="{{categorySubCode}}" data-rowIndex="{{@index}}" />
                     {{/goodsSubCategory}}
                 </ul>
             </li>
-        </form>
     {{/category}}
+    </form>
 </ul>
 

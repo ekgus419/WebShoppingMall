@@ -6,10 +6,7 @@
  */
 package com.dh.webservice.web;
 
-import com.dh.webservice.domain.AjaxPageRequest;
-import com.dh.webservice.domain.Goods;
-import com.dh.webservice.domain.GoodsCategory;
-import com.dh.webservice.domain.User;
+import com.dh.webservice.domain.*;
 import com.dh.webservice.repository.GoodsCategoryRepository;
 import com.dh.webservice.repository.GoodsRepository;
 import com.dh.webservice.service.UserService;
@@ -90,14 +87,20 @@ public class WebController {
      */
     @GetMapping("/listData")
     @ResponseBody
-//    public Page<Goods> listData(int offset){
-    public Page<Goods> listData(@RequestParam("offset") int offset){
+////    public Page<Goods> listData(int offset){
+//    public Page<Goods> listData(@RequestParam("offset") int offset){
+//        int limit = 6;
+//        Page<Goods> list = goodsRepository.findAll(new AjaxPageRequest(offset, limit));
+//        System.out.println("list.toString();  :" + list.toString());
+//        return list;
+//    }
+    public Page<Goods> listData(@RequestParam("offset") int offset, @RequestParam("goodsCategory") GoodsCategory goodsCategory,
+                                @RequestParam("goodsSubCategory") GoodsSubCategory goodsSubCategory){
         int limit = 6;
-        Page<Goods> list = goodsRepository.findAll(new AjaxPageRequest(offset, limit));
+        Page<Goods> list = goodsRepository.findGoodsByGoodsCategoryAndGoodsSubCategory(goodsCategory, goodsSubCategory, new AjaxPageRequest(offset, limit) );
         System.out.println("list.toString();  :" + list.toString());
         return list;
     }
-
 
     /**
      * login 페이지

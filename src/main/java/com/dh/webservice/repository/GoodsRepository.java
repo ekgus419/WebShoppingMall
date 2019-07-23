@@ -6,7 +6,12 @@
  */
 package com.dh.webservice.repository;
 
+import com.dh.webservice.domain.AjaxPageRequest;
 import com.dh.webservice.domain.Goods;
+import com.dh.webservice.domain.GoodsCategory;
+import com.dh.webservice.domain.GoodsSubCategory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,5 +23,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface GoodsRepository extends JpaRepository<Goods, Long> {
+
+//    page<Goods> findBynameStartingWith(String name,pageable pageable)
+//            Page<Goods> list = goodsRepository.findAll(new AjaxPageRequest(offset, limit));
+//    Page<Goods> findByGoodsCategoryAndGoodsSubCategory(String goodsCategory, String goodsSubCategory, Pageable pageable);
+    Page<Goods> findGoodsByGoodsCategoryAndGoodsSubCategory(GoodsCategory goodsCategory, GoodsSubCategory goodsSubCategory, Pageable pageable);
 
 }
