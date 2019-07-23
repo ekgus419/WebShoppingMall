@@ -1,7 +1,6 @@
 $(document).ready(function(text, reviver){
-    // todo admin , user 소스 구분, 파일 새로만들것
-    // 글쓰기
-    var goods = {
+    // 상품 CRUD
+    var Goods = {
         init: function () {
             var _this = this;
             var path = $(location).attr('pathname');
@@ -35,36 +34,23 @@ $(document).ready(function(text, reviver){
             return this;
         },
         getUpdate: function () {
-            var goodsNum = $("#goodsNum").val();
-            var data = {
-                goodsNum: $("#goodsNum").val(),
-                goodsName: $("#goodsName").val(),
-                goodsPrice: $("#goodsPrice").val(),
-                goodsStock: $("#goodsStock").val(),
-                goodsDescription: $("#goodsDescription").val(),
-                files : $("#goodsImg").val() ? $("#goodsImg").val() : ""
-            };
-    ;
-            // var formData = new FormData(data);
-
-           console.log($("input[name=files]")[0].files[0]);
-
-            var formData = new FormData();
-            formData.append("files", $("input[name=files]")[0].files[0]);
-            console.log(formData);
-            return false;
+            var goodsNum =  $("#goodsNum").val();
+            var form = $('#updateForm')[0];
+            var data = new FormData(form);
 
             $.ajax({
-                type: "POST",
                 url: "/admin/goods/update/" + goodsNum,
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(formData)
-            }).done(function (result) {
-                console.log(result);
-                if(result == true){
+                type: "PUT",
+                data: data,
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                cache: false,
+            }).done(function (jqXHR, testStatus, errorThrown) {
+                var status = errorThrown.status;
+                if(status === 200){
                     alert("수정되었습니다.");
-                    location.href= "/admin/index/" ;
+                        location.href= "/admin/index/" ;
                 }else{
                     alert("잠시후 다시 시도해주세요.");
                     history.go(0);
@@ -82,7 +68,6 @@ $(document).ready(function(text, reviver){
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
             }).done(function (data) {
-                console.log(data);
                 if(data.result === true){
                     alert("삭제되었습니다.");
                     location.href= "/admin/index/" ;
@@ -98,7 +83,7 @@ $(document).ready(function(text, reviver){
 
     };
 
-    goods.init();
+    Goods.init();
 
     // 상품 등록 후 이미지 목록에 표시
     $("#goodsImg").change(function(){

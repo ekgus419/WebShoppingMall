@@ -25,8 +25,8 @@
         </aside>
         <div id="container_box">
             <h2>상품 수정</h2>
-            <form id="updateForm" enctype="multipart/form-data">
-                <input type="hidden" id="goodsNum" name="goodsNum"  value="{{goods.goodsNum}}" />
+            <form id="updateForm" enctype="multipart/form-data"  onsubmit="return false;">
+                <input type="hidden" id="goodsNum" name="goodsNum"  value="{{goods.goodsNum}}" disabled />
                 <div class="inputArea">
                     <label>1차 분류</label>
                     <select class="category1">
@@ -54,8 +54,7 @@
                     <textarea rows="5" cols="50" id="goodsDescription" name="goodsDescription" >{{goods.goodsDescription}}</textarea>
                 </div>
                 <div class="inputArea">
-                    <label for="">이미지</label>
-                    <input type="file"  name="files" value="" />
+                    <input type="file"  id="goodsImg" name="file" value="" />
                     <div class="select_img"><img src="" /></div>
                 </div>
                 <div class="inputArea">

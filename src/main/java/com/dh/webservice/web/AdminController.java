@@ -16,6 +16,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,7 +26,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -78,15 +83,6 @@ public class AdminController {
      * @param principal
      * @return 전체 상품 목록 List
      */
-//    @GetMapping("/goods/list")
-//    public void getGoodsList(Model model) throws Exception {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        User user = userService.findUserByUserEmail(auth.getName());
-//        model.addAttribute("user", user);
-//        List<Goods> list = goodsRepository.findAll();
-//        model.addAttribute("list", list);
-//
-//    }
     @GetMapping("/goods/list")
     public ModelAndView list(Optional<Integer> pageNo, Optional<Integer> pageSize, Principal principal){
         String writer = principal.getName();
@@ -95,7 +91,6 @@ public class AdminController {
         int evalPage = (pageNo.orElse(0) < 1) ? 0 : pageNo.get() - 1;
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("auth : " + auth.getName());
         User user = userService.findUserByUserEmail(auth.getName());
 
         // ajax Data
@@ -147,34 +142,47 @@ public class AdminController {
     /**
      * 상품 수정
      * @param goodsNum
-     * @param goods
+     * @param
      * @return 수정된 게시글 Entity
      */
-//    @PutMapping("/goods/update/{goodsNum}")
-    @PostMapping("/goods/update/{goodsNum}")
+    @PutMapping("/goods/update/{goodsNum}")
     @ResponseBody
-    public boolean update(@PathVariable Long goodsNum, @RequestBody Goods goods, Principal principal, MultipartFile files) throws Exception {
+    public ResponseEntity<?> update(@PathVariable Long goodsNum, @RequestParam("file") MultipartFile file,  @ModelAttribute Goods goods, Principal principal ) throws Exception {
 
-        System.out.println("files : + " + files.toString());
-        System.out.println("Goods : + " + goods.toString());
-        return false;
+        String writer = principal.getName();
 
-//        String writer = principal.getName();
-//        if(!writer.equals("") &&  writer.trim().length() > 0) {
-//            Goods updateGoods = goodsRepository.findOne(goodsNum);
-//            updateGoods.setGoodsName(goods.getGoodsName());
-//            updateGoods.setGoodsDescription(goods.getGoodsDescription());
-//            updateGoods.setGoodsPrice(goods.getGoodsPrice());
-//
-//            goodsRepository.save(updateGoods);
-//
-//            return true;
-//        }else{
-//            return false;
-//        }
+        if(!writer.equals("") &&  writer.trim().length() > 0) {
+            Goods updateGoods = goodsRepository.findOne(goodsNum);
+            updateGoods.setGoodsName(goods.getGoodsName());
+            updateGoods.setGoodsDescription(goods.getGoodsDescription());
+            updateGoods.setGoodsPrice(goods.getGoodsPrice());
 
-    }
+            if(!file.isEmpty()){
+                try {
+                    String fileName = file.getOriginalFilename();
+                    String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
+                    do {
+                        destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
+                        destinationFile = new File(fileUrl+ destinationFileName);
+                    } while (destinationFile.exists());{
+                        destinationFile.getParentFile().mkdirs();
+                        file.transferTo(destinationFile);
+                    }
+                    updateGoods.setGoodsImg(destinationFileName);
+                }
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            }
+            goodsRepository.save(updateGoods);
+            return new ResponseEntity<>(HttpStatus.OK);
 
+        }else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    } // method update
 
     /**
      * 상품 삭제
@@ -216,19 +224,19 @@ public class AdminController {
      * @return void
      */
     @PostMapping("/goods/register")
-    public String getGoodsRegisterPost(Model model, Goods goods, MultipartFile files) throws Exception {
+    public String getGoodsRegisterPost(Model model, Goods goods, MultipartFile file) throws Exception {
 
-        if(files.isEmpty()){
+        if(file.isEmpty()){
             goodsRepository.save(goods);
         }else{
-            String fileName = files.getOriginalFilename();
+            String fileName = file.getOriginalFilename();
             String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
             do {
                 destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
                 destinationFile = new File(fileUrl+ destinationFileName);
             } while (destinationFile.exists());{
                 destinationFile.getParentFile().mkdirs();
-                files.transferTo(destinationFile);
+                file.transferTo(destinationFile);
             }
 
             goods.setGoodsImg(destinationFileName);
