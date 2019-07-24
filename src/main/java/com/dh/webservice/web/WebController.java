@@ -99,12 +99,14 @@ public class WebController {
         int limit = 6;
 
         if(goodsSubCategory == null){
+            //  List<Person> findDistinctPeopleByLastnameOrFirstname(String lastname, String firstname);
             Page<Goods> list = goodsRepository.findAll(new AjaxPageRequest(offset, limit));
             System.out.println("전체 수  :" + list.getTotalElements());
+            System.out.println("전체 수  :" + list.getSize());
             return list;
         }else{
             Page<Goods> list = goodsRepository.findGoodsByGoodsSubCategory(goodsSubCategory, new AjaxPageRequest(offset, limit) );
-            if(list.getTotalElements() < 5){
+            if(list.getTotalElements() < 6){
                 offset = 0;
                 System.out.println("test  :" + offset + "& " + limit);
                 list = goodsRepository.findGoodsByGoodsSubCategory(goodsSubCategory, new AjaxPageRequest(offset, limit) );

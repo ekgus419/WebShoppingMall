@@ -2,16 +2,15 @@ $(document).ready(function(text, reviver){
     var User = {
         init: function () {
             var _this = this;
-            var offset = 5;
+            var offset = 6;
             var goodsSubCategory =  "";
             // 더보기 버튼 누를시 ver2
             // -> ajax load 후 이벤트 안걸려서 수정
             $('body').on('click','#btn_more',function(){
-                offset = offset + 5;
+                offset = offset + 6;
                 _this.getListData(offset, goodsSubCategory);
             });
 
-            console.log(offset);
 
             $(".btn-category").on("click", function(e) {
                 e.preventDefault();
@@ -31,31 +30,29 @@ $(document).ready(function(text, reviver){
                 url: "/listData?offset=" + offset + "&goodsSubCategory=" + goodsSubCategory ,
             }).done(function (data) {
                 var content="";
-                for(var i=0; i<data.size; i++){
-                    if(!data.content[i]){
-                        alert("가져올 데이터가 없습니다.");
-                        return false;
-                    }else{
-                        var aHref = "/view?goodsNum=" +data.content[i].goodsNum;
-                        var imgSrc = "/uploads/img/" + data.content[i].goodsImg;
-                        console.dir(imgSrc);
-                        content +=
-                            "<tr class='tr-items' data-rowIndex='" + i + "'>"
-                            + "<td>"
-                                + "<a href='" + aHref + "'>"
-                                     + "<img src='" + imgSrc + "'  width='200' height='200'>"
-                                + "</a>"
-                                + "<br />"
-                                + "<span>" + data.content[i].goodsName + "</span>"
-                                + "</td>"
-                            + "</tr>";
-                    }
-
+                var contentLength = data.content.length;
+                if(!contentLength) {
+                    alert("가져올 데이터가 없습니다.");
+                    return false;
                 }
-                $("#btn_more").parent().remove();
-                content += "<tr id='btn_add'><td colspan='3'> <button type=\"button\" id=\"btn_more\" class=\"btn btn-primary pull-right \">더보기</button></td></tr>";
-                $(content).appendTo("#table");
-                User.render();
+                for(var i=0; i<contentLength; i++){
+                    var aHref = "/view?goodsNum=" +data.content[i].goodsNum;
+                    var imgSrc = "/uploads/img/" + data.content[i].goodsImg;
+                    content +=
+                        "<tr class='tr-items' data-rowIndex='" + i + "'>"
+                        + "<td>"
+                            + "<a href='" + aHref + "'>"
+                                 + "<img src='" + imgSrc + "'  width='200' height='200'>"
+                            + "</a>"
+                            + "<br />"
+                            + "<span>" + data.content[i].goodsName + "</span>"
+                            + "</td>"
+                        + "</tr>";
+                }
+                    $("#btn_more").parent().remove();
+                    content += "<tr id='btn_add'><td colspan='3'> <button type=\"button\" id=\"btn_more\" class=\"btn btn-primary pull-right \">더보기</button></td></tr>";
+                    $(content).appendTo("#table");
+                    User.render();
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert("관리자에게 문의해주세요.");
                 console.log(jqXHR, " " + textStatus + " " + errorThrown + " ");
