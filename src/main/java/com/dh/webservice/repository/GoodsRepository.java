@@ -27,6 +27,6 @@ public interface GoodsRepository extends JpaRepository<Goods, Long> {
 //    page<Goods> findBynameStartingWith(String name,pageable pageable)
 //            Page<Goods> list = goodsRepository.findAll(new AjaxPageRequest(offset, limit));
 //    Page<Goods> findByGoodsCategoryAndGoodsSubCategory(String goodsCategory, String goodsSubCategory, Pageable pageable);
-    Page<Goods> findGoodsByGoodsCategoryAndGoodsSubCategory(GoodsCategory goodsCategory, GoodsSubCategory goodsSubCategory, Pageable pageable);
+    Page<Goods> findGoodsByGoodsSubCategory(GoodsSubCategory goodsSubCategory, Pageable pageable);
 
 }

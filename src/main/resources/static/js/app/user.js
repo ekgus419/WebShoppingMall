@@ -3,44 +3,32 @@ $(document).ready(function(text, reviver){
         init: function () {
             var _this = this;
             var offset = 5;
+            var goodsSubCategory =  "";
             // 더보기 버튼 누를시 ver2
             // -> ajax load 후 이벤트 안걸려서 수정
             $('body').on('click','#btn_more',function(){
                 offset = offset + 5;
-                _this.getListData(offset);
+                _this.getListData(offset, goodsSubCategory);
             });
 
-            $("#categoryForm").on("click", function(e) {
-                e.preventDefault();
-                // var goodsCategory =  $("input[name='categoryCode']").val();
-                // var goodsSubCategory =  $("input[name='categorySubCode']").val();
-                // // 변수값 세팅 및 offset 처리
-                // alert(goodsCategory);
-                // alert(goodsSubCategory);
-                // 체크박스 배열 Loop
-                $("input[name=categoryCode]").each(function(){
-                    // 해당 체크박스의 Value 가져오기
-                    // var value = $(this).val();
-                    // alert(value);
-                });
-
-
-            });
+            console.log(offset);
 
             $(".btn-category").on("click", function(e) {
                 e.preventDefault();
-                var goodsSubCategory = this.attr("data-code");
+                goodsSubCategory = $(this).attr("data-value");
+                _this.getListData(offset, goodsSubCategory);
             });
 
             User.render();
             return this;
         },
-        getListData: function (offset) {
+        getListData: function (offset, goodsSubCategory) {
             // var goodsCategory =  $("input[name='categoryCode']").val();
             // var goodsSubCategory =  $("input[name='categorySubCode']").val();
             $.ajax({
                 type: "GET",
-                url: "/listData?offset=" + offset + "&goodsCategory=" + goodsCategory + "&goodsSubCategory=" + goodsSubCategory ,
+                // url: "/listData?offset=" + offset + "&goodsCategory=" + goodsCategory + "&goodsSubCategory=" + goodsSubCategory ,
+                url: "/listData?offset=" + offset + "&goodsSubCategory=" + goodsSubCategory ,
             }).done(function (data) {
                 var content="";
                 for(var i=0; i<data.size; i++){

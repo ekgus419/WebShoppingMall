@@ -72,7 +72,7 @@ public class WebController {
         modelAndView.setViewName("/main");
 
         Page<Goods> list = goodsRepository.findAll(pageable);
-
+        System.out.println("전체 수  :" + list.getTotalElements());
         modelAndView.addObject("list", list);
 
         List<GoodsCategory> category = goodsCategoryRepository.findAll();
@@ -94,12 +94,26 @@ public class WebController {
 //        System.out.println("list.toString();  :" + list.toString());
 //        return list;
 //    }
-    public Page<Goods> listData(@RequestParam("offset") int offset, @RequestParam("goodsCategory") GoodsCategory goodsCategory,
+    public Page<Goods> listData(@RequestParam("offset") int offset,
                                 @RequestParam("goodsSubCategory") GoodsSubCategory goodsSubCategory){
         int limit = 6;
-        Page<Goods> list = goodsRepository.findGoodsByGoodsCategoryAndGoodsSubCategory(goodsCategory, goodsSubCategory, new AjaxPageRequest(offset, limit) );
-        System.out.println("list.toString();  :" + list.toString());
-        return list;
+
+        if(goodsSubCategory == null){
+            Page<Goods> list = goodsRepository.findAll(new AjaxPageRequest(offset, limit));
+            System.out.println("전체 수  :" + list.getTotalElements());
+            return list;
+        }else{
+            Page<Goods> list = goodsRepository.findGoodsByGoodsSubCategory(goodsSubCategory, new AjaxPageRequest(offset, limit) );
+            if(list.getTotalElements() < 5){
+                offset = 0;
+                System.out.println("test  :" + offset + "& " + limit);
+                list = goodsRepository.findGoodsByGoodsSubCategory(goodsSubCategory, new AjaxPageRequest(offset, limit) );
+            }
+
+            System.out.println("전체 수  :" + list.getTotalElements());
+            return list;
+        }
+
     }
 
     /**
