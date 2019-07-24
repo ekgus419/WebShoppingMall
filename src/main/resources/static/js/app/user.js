@@ -31,26 +31,25 @@ $(document).ready(function(text, reviver){
                 url: "/listData?offset=" + offset + "&goodsSubCategory=" + goodsSubCategory ,
             }).done(function (data) {
                 var content="";
-                for(var i=0; i<data.size; i++){
-                    if(!data.content[i]){
-                        alert("가져올 데이터가 없습니다.");
-                        return false;
-                    }else{
-                        var aHref = "/view?goodsNum=" +data.content[i].goodsNum;
-                        var imgSrc = "/uploads/img/" + data.content[i].goodsImg;
-                        console.dir(imgSrc);
-                        content +=
-                            "<tr class='tr-items' data-rowIndex='" + i + "'>"
-                            + "<td>"
-                                + "<a href='" + aHref + "'>"
-                                     + "<img src='" + imgSrc + "'  width='200' height='200'>"
-                                + "</a>"
-                                + "<br />"
-                                + "<span>" + data.content[i].goodsName + "</span>"
-                                + "</td>"
-                            + "</tr>";
-                    }
-
+                var contentLength = data.content.length;
+                if(!contentLength) {
+                    alert("가져올 데이터가 없습니다.");
+                    return false;
+                }
+                for(var i=0; i<contentLength; i++){
+                    var aHref = "/view?goodsNum=" +data.content[i].goodsNum;
+                    var imgSrc = "/uploads/img/" + data.content[i].goodsImg;
+                    console.dir(imgSrc);
+                    content +=
+                        "<tr class='tr-items' data-rowIndex='" + i + "'>"
+                        + "<td>"
+                            + "<a href='" + aHref + "'>"
+                                 + "<img src='" + imgSrc + "'  width='200' height='200'>"
+                            + "</a>"
+                            + "<br />"
+                            + "<span>" + data.content[i].goodsName + "</span>"
+                            + "</td>"
+                        + "</tr>";
                 }
                 $("#btn_more").parent().remove();
                 content += "<tr id='btn_add'><td colspan='3'> <button type=\"button\" id=\"btn_more\" class=\"btn btn-primary pull-right \">더보기</button></td></tr>";
