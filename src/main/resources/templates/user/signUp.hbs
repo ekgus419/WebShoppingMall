@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/js/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/lib/util.css">
+    <link rel="stylesheet" type="text/css" href="/css/lib/main.css">
+    <script type="text/javascript" src="/js/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/js/jquery/jquery.validate.min.js"></script>
+</head>
+<body>
+<div id="root">
+    <section id="container">
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-form-title" style="background-image: url(images/bg-01.jpg);">
+					<span class="login100-form-title-1">
+						회원 가입
+					</span>
+                    </div>
+                    <form class="login100-form" id="signUpForm" onsubmit="return false;">
+                        <div class="wrap-input100 m-b-26" >
+                            <span class="label-input100">아이디</span>
+                            <input class="input100" type="email" id="user_email" name="user_email" placeholder="이메일 형식으로 입력해주세요.">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 m-b-26">
+                            <span class="label-input100">닉네임</span>
+                            <input class="input100" type="text" id="user_name" name="user_name" placeholder="닉네임을 입력해주세요.">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 m-b-26">
+                            <span class="label-input100">연락처</span>
+                            <input class="input100" type="text" id="user_phone" name="user_phone" placeholder="연락처를 입력해주세요.">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 m-b-26">
+                            <span class="label-input100">주소(시)</span>
+                            <input class="input100" type="text" id="user_addr1" name="user_addr1" placeholder="주소(시)를 입력해주세요.">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 m-b-26">
+                            <span class="label-input100">주소(구)</span>
+                            <input class="input100" type="text" id="user_addr2" name="user_addr2" placeholder="주소(구)를 입력해주세요.">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 m-b-26">
+                            <span class="label-input100">주소(동)</span>
+                            <input class="input100" type="text" id="user_addr3" name="user_addr3" placeholder="주소(동)를 입력해주세요.">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 m-b-18">
+                            <span class="label-input100">비밀번호</span>
+                            <input class="input100" type="password" id="user_pwd" name="user_pwd" placeholder="비밀번호를 입력해주세요.">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 m-b-18">
+                            <span class="label-input100">비밀번호 확인</span>
+                            <input class="input100" type="password" name="user_repwd" placeholder="비밀번호 확인을 입력해주세요.">
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn" id="btn_signup">
+                                회원가입
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="/js/app/sign.js"></script>
+</body>
+</html>

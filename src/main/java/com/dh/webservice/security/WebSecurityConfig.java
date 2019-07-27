@@ -1,3 +1,9 @@
+/**
+ * @author cdh
+ * @since 2019-07-01
+ * @copyright  Copyright dh-0419(https://github.com/ekgus419/WebShoppingmall)
+ *
+ */
 package com.dh.webservice.security;
 
 import com.dh.webservice.service.UserService;
@@ -18,7 +24,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
-
+/**
+ * @title Spring Security 설정 파일
+ * @author cdh
+ * @FileName : WebSecurityConfig
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = false)
@@ -55,14 +66,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception { // security resources 허가
-        web.ignoring().antMatchers("/resources/static/**", "/css/**", "/images/**","/js/**");
-
+        web.ignoring().antMatchers("/resources/static/**", "/css/**", "/images/**","/js/**","/fonts/**");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
        auth
-//                .userDetailsService(userDetailsServiceImpl)
                 .authenticationProvider(authenticationProvider())
                 .jdbcAuthentication()
                 .usersByUsernameQuery(userQuery)
@@ -76,9 +85,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/").permitAll()
+                    .antMatchers("/main").permitAll()
                     .antMatchers("/login").permitAll()
-                    .antMatchers("/signin").permitAll()
-                    .antMatchers("/user/signup").permitAll()
+                    .antMatchers("/listData/**").permitAll()
+                    .antMatchers("/uploads/img/**").permitAll()
+                    .antMatchers("/user/signIn").permitAll()
+                    .antMatchers("/user/signUp").permitAll()
                     .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest().authenticated()
                 .and()
                     .csrf().disable()
@@ -88,12 +100,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/login")
                     .successHandler(securityHandler)
                     .failureHandler(securityHandler)
-//                .failureUrl("/login?error=true")
-//                .defaultSuccessUrl("/user/admin/index")
                 .and()
                     .logout()
-                        .logoutSuccessUrl("/signin")
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/signout"))
+                        .logoutSuccessUrl("/main")
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/signOut"))
                     .and()
                         .exceptionHandling().accessDeniedPage("/access-denied");
     }

@@ -1,0 +1,67 @@
+<html>
+<head>
+    <title>Admin</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/js/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/js/bootstrap/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/user/view.css">
+    <script src="/js/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="root">
+    <header id="header">
+        <div id="header_box">
+            {{> user/include/header}}
+        </div>
+    </header>
+    <nav id="nav">
+        <div id="nav_box">
+            {{> user/include/nav}}
+        </div>
+    </nav>
+    <section id="container">
+        <aside>
+            {{> user/include/aside}}
+        </aside>
+        <div id="container_box">
+            <h2>상품 상세</h2>
+            <form>
+                <input type="hidden" id="goodsNum" name="goodsNum" value="{{goods.goodsNum}}" />
+                <div class="inputArea">
+                    <label for="goodsName">상품명</label>
+                    <span><input type="text" id="goodsName" value="{{goods.goodsName}}" /></span>
+                </div>
+                <div class="inputArea">
+                    <label for="goodsPrice">상품가격</label>
+                    <span><input type="text" id="goodsPrice" value="{{goods.goodsPrice}}" /></span>
+                </div>
+                <div class="inputArea">
+                    <label for="goodsStock">상품수량</label>
+                    <span><input type="text" id="goodsStock" value="{{goods.goodsStock}}" /></span>
+                </div>
+                <div class="inputArea">
+                    <label for="goodsDescription">상품소개</label>
+                    <span><input type="text" id="goodsDescription" value="{{goods.goodsDescription}}" /></span>
+                </div>
+                <div class="inputArea">
+                    <div><b>이미지</b></div>
+                    <span><img src="/uploads/img/{{goods.goodsImg}}"  width="300" height="300"></span>
+                </div>
+                <div class="inputArea">
+                    <button type="button" id="btn_buy" class="btn btn-primary pull-right">구매</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <footer id="footer">
+        <div id="footer_box">
+            {{> user/include/footer}}
+        </div>
+    </footer>
+</div>
+<script src="/js/app/payment.js"></script>
+</body>
+</html>

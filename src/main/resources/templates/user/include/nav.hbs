@@ -1,25 +1,24 @@
 <ul>
-    {{#unless user}}
+    {{#if user.userEmail}}
     <li>
-        <a href="/user/signin">로그인</a>
+        <span><b>{{#user.userName}}{{.}}{{/user.userName}}</b>님 환영합니다.</span>
+    </li>
+        {{#user.roles}}
+            {{#if roleName = "ADMIN"}}
+                <li>
+                    <a href="/admin/index">관리자화면</a>
+                </li>
+            {{/if}}
+        {{/user.roles}}
+    <li>
+        <a href="/signOut">로그아웃</a>
+    </li>
+    {{else}}
+    <li>
+        <a href="/user/signIn">로그인</a>
     </li>
     <li>
-        <a href="/user/signup">회원가입</a>
-    </li>
-    {{/unless}}
-
-    {{#if user}}
-    <li>
-        {{#user.userName}}{{.}}{{/user.userName}}님 환영합니다.
-    </li>
-    <li>
-        <a href="/shop/cartList">카트 리스트</a>
-    </li>
-    <li>
-        <a href="/shop/orderList">주문 리스트</a>
-    </li>
-    <li>
-        <a href="/signout">로그아웃</a>
+        <a href="/user/signUp">회원가입</a>
     </li>
     {{/if}}
 </ul>

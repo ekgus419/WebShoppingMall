@@ -1,0 +1,67 @@
+<html>
+<head>
+    <title>dh-0419</title>
+    <script src="/js/jquery/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="/js/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/js/bootstrap/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/user/main.css">
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="root">
+    <header id="header">
+        <div id="header_box">
+            {{> user/include/header}}
+        </div>
+    </header>
+    <nav id="nav">
+        <div id="nav_box">
+            {{> user/include/nav}}
+        </div>
+    </nav>
+    <section id="container">
+        <div id="container_box">
+            <section id="content">
+                <form>
+                    <table id="table" class="table">
+                        <thead>
+                        <tr>
+                            <th  class="text-center" colspan="3">상품</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#list}}
+                            <tr class="tr-items" data-rowIndex="{{@index}}">
+                                <td>
+                                    <a href="/user/view?goodsNum={{goodsNum}}">
+                                        <img src="/uploads/img/{{goodsImg}}" width="200" height="200">
+                                    </a>
+                                    <br />
+                                    <span>{{goodsName}}</span>
+                                </td>
+                            </tr>
+                        {{/list}}
+                        <tr>
+                            <td colspan="3">
+                                <button type="button" id="btn_more" class="btn btn-primary pull-right">더보기</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </section>
+
+            <aside id="aside">
+                {{> user/include/aside}}
+            </aside>
+
+        </div>
+    </section>
+    <footer id="footer">
+        <div id="footer_box">
+            {{> user/include/footer}}
+        </div>
+    </footer>
+</div>
+<script src="/js/app/user.js"></script>
+</body>
+</html>
