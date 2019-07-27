@@ -38,6 +38,21 @@ $(document).ready(function(text, reviver){
                 for(var i=0; i<contentLength; i++){
                     var aHref = "/view?goodsNum=" +data.content[i].goodsNum;
                     var imgSrc = "/uploads/img/" + data.content[i].goodsImg;
+                    console.dir(imgSrc);
+                    content +=
+                        "<tr class='tr-items' data-rowIndex='" + i + "'>"
+                        + "<td>"
+                            + "<a href='" + aHref + "'>"
+                                 + "<img src='" + imgSrc + "'  width='200' height='200'>"
+                            + "</a>"
+                            + "<br />"
+                            + "<span>" + data.content[i].goodsName + "</span>"
+                            + "</td>"
+                        + "</tr>";
+                }
+                for(var i=0; i<contentLength; i++){
+                    var aHref = "/view?goodsNum=" +data.content[i].goodsNum;
+                    var imgSrc = "/uploads/img/" + data.content[i].goodsImg;
                     content +=
                         "<tr class='tr-items' data-rowIndex='" + i + "'>"
                         + "<td>"
