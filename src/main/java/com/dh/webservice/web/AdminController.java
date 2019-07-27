@@ -5,17 +5,22 @@
  */
 package com.dh.webservice.web;
 
-import com.dh.webservice.domain.*;
+import com.dh.webservice.domain.Goods;
+import com.dh.webservice.domain.GoodsCategory;
+import com.dh.webservice.domain.ReturnResult;
+import com.dh.webservice.domain.User;
 import com.dh.webservice.repository.GoodsCategoryRepository;
 import com.dh.webservice.repository.GoodsRepository;
 import com.dh.webservice.service.AdminService;
 import com.dh.webservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,10 +31,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -89,7 +90,9 @@ public class AdminController {
         User user = userService.findUserByUserEmail(auth.getName());
 
         // ajax Data
-        Page<Goods> page = adminService.getfindAll(evalPage, evalPageSize);
+        Pageable pageable = new PageRequest(evalPage, evalPageSize, new Sort(Direction.DESC, "goodsNum"));
+        Page<Goods> page = goodsRepository.findAll(pageable);
+
         ModelAndView model = new ModelAndView("/admin/goods/list");
         // 현재 페이지
         int currentPage = page.getNumber()+1;

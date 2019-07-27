@@ -2,32 +2,32 @@ $(document).ready(function(text, reviver){
     var User = {
         init: function () {
             var _this = this;
-            var offset = 6;
+            var page = 0;
             var goodsSubCategory =  "";
-            // 더보기 버튼 누를시 ver2
-            // -> ajax load 후 이벤트 안걸려서 수정
-            $('body').on('click','#btn_more',function(){
-                offset = offset + 6;
-                _this.getListData(offset, goodsSubCategory);
-            });
 
+            $('body').on('click','#btn_more',function(){
+                page++;
+                _this.getListData(page, goodsSubCategory);
+            });
 
             $(".btn-category").on("click", function(e) {
                 e.preventDefault();
-                goodsSubCategory = $(this).attr("data-value");
-                _this.getListData(offset, goodsSubCategory);
+                $(".tr-items").remove();
+                var changeGoodsSubCategory = $(this).attr("data-value");
+                if(goodsSubCategory != changeGoodsSubCategory) {
+                    goodsSubCategory = changeGoodsSubCategory;
+                    page = 0;
+                }
+                _this.getListData(page, goodsSubCategory);
             });
 
             User.render();
             return this;
         },
-        getListData: function (offset, goodsSubCategory) {
-            // var goodsCategory =  $("input[name='categoryCode']").val();
-            // var goodsSubCategory =  $("input[name='categorySubCode']").val();
+        getListData: function (page, goodsSubCategory) {
             $.ajax({
                 type: "GET",
-                // url: "/listData?offset=" + offset + "&goodsCategory=" + goodsCategory + "&goodsSubCategory=" + goodsSubCategory ,
-                url: "/listData?offset=" + offset + "&goodsSubCategory=" + goodsSubCategory ,
+                url: "/listData?page=" + page + "&goodsSubCategory=" + goodsSubCategory ,
             }).done(function (data) {
                 var content="";
                 var contentLength = data.content.length;
@@ -41,12 +41,12 @@ $(document).ready(function(text, reviver){
                     content +=
                         "<tr class='tr-items' data-rowIndex='" + i + "'>"
                         + "<td>"
-                            + "<a href='" + aHref + "'>"
-                                 + "<img src='" + imgSrc + "'  width='200' height='200'>"
-                            + "</a>"
-                            + "<br />"
-                            + "<span>" + data.content[i].goodsName + "</span>"
-                            + "</td>"
+                        + "<a href='" + aHref + "'>"
+                        + "<img src='" + imgSrc + "'  width='200' height='200'>"
+                        + "</a>"
+                        + "<br />"
+                        + "<span>" + data.content[i].goodsName + "</span>"
+                        + "</td>"
                         + "</tr>";
                 }
                     $("#btn_more").parent().remove();
@@ -75,6 +75,7 @@ $(document).ready(function(text, reviver){
                     }
                     $(this).remove();
                 }
+
             });
         }
     };
@@ -82,12 +83,3 @@ $(document).ready(function(text, reviver){
     User.init();
 
 });
-
-
-// 더보기 버튼 누를시 ver1
-// $("#btn_more").on("click", function (e) {
-//     console.log(e);
-//     count = count + 5;
-//     alert(count);
-//     _this.getListData(count);
-// });

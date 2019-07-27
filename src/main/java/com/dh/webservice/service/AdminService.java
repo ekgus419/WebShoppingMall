@@ -6,9 +6,6 @@
  */
 package com.dh.webservice.service;
 
-import com.dh.webservice.domain.Goods;
-import com.dh.webservice.domain.User;
-import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -18,8 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
  *
  */
 public interface AdminService {
-    // 리스트 보기
-    Page<Goods> getfindAll(Integer pageNo, Integer pageSize);
 
     String fileUpload(MultipartFile file) throws Exception;
 }

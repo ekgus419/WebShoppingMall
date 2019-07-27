@@ -10,6 +10,7 @@ import com.dh.webservice.domain.*;
 import com.dh.webservice.repository.GoodsCategoryRepository;
 import com.dh.webservice.repository.GoodsRepository;
 import com.dh.webservice.service.UserService;
+import lombok.experimental.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -63,7 +64,8 @@ public class WebController {
      * @return main page view
      */
     @GetMapping("/main")
-    public ModelAndView main(@PageableDefault(sort = { "createdDate" }, direction = Direction.DESC, size = 6) Pageable pageable ) throws Exception {
+    public ModelAndView main(@PageableDefault(sort = { "goodsNum" }, direction = Direction.DESC, size = 6) Pageable pageable ) {
+
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUserEmail(auth.getName());
@@ -72,7 +74,6 @@ public class WebController {
         modelAndView.setViewName("/main");
 
         Page<Goods> list = goodsRepository.findAll(pageable);
-        System.out.println("전체 수  :" + list.getTotalElements());
         modelAndView.addObject("list", list);
 
         List<GoodsCategory> category = goodsCategoryRepository.findAll();
@@ -82,37 +83,25 @@ public class WebController {
 
     /**
      * Ajax List Data
-     * @param offset
-     * @return pageable
+     * @param page
+     * @return list
      */
     @GetMapping("/listData")
     @ResponseBody
-////    public Page<Goods> listData(int offset){
-//    public Page<Goods> listData(@RequestParam("offset") int offset){
-//        int limit = 6;
-//        Page<Goods> list = goodsRepository.findAll(new AjaxPageRequest(offset, limit));
-//        System.out.println("list.toString();  :" + list.toString());
-//        return list;
-//    }
-    public Page<Goods> listData(@RequestParam("offset") int offset,
+    public Page<Goods> listData(@RequestParam("page") int page,
                                 @RequestParam("goodsSubCategory") GoodsSubCategory goodsSubCategory){
         int limit = 6;
 
+        Pageable pageable = new PageRequest(page, limit, new Sort(Direction.DESC, "goodsNum"));
         if(goodsSubCategory == null){
-            //  List<Person> findDistinctPeopleByLastnameOrFirstname(String lastname, String firstname);
-            Page<Goods> list = goodsRepository.findAll(new AjaxPageRequest(offset, limit));
-            System.out.println("전체 수  :" + list.getTotalElements());
-            System.out.println("전체 수  :" + list.getSize());
+            Page<Goods> list = goodsRepository.findAll(pageable);
             return list;
         }else{
-            Page<Goods> list = goodsRepository.findGoodsByGoodsSubCategory(goodsSubCategory, new AjaxPageRequest(offset, limit) );
+            Page<Goods> list = goodsRepository.findGoodsByGoodsSubCategory(goodsSubCategory, pageable );
             if(list.getTotalElements() < 6){
-                offset = 0;
-                System.out.println("test  :" + offset + "& " + limit);
-                list = goodsRepository.findGoodsByGoodsSubCategory(goodsSubCategory, new AjaxPageRequest(offset, limit) );
+                page = 0;
+                list = goodsRepository.findGoodsByGoodsSubCategory(goodsSubCategory, pageable );
             }
-
-            System.out.println("전체 수  :" + list.getTotalElements());
             return list;
         }
 

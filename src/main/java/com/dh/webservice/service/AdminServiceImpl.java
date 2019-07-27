@@ -35,18 +35,6 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private GoodsRepository goodsRepository;
 
-
-    @Override
-    public Page<Goods> getfindAll(Integer pageNo, Integer pageSize) {
-        PageRequest pr = new PageRequest(pageNo, pageSize,
-                new Sort(
-                        new Order(Direction.DESC,"goodsNum")
-                )
-        );
-
-        return goodsRepository.findAll(pr);
-    }
-
     @Override
     public String fileUpload(MultipartFile file) throws Exception {
 
