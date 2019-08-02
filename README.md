@@ -141,7 +141,7 @@ $(document).ready(function(text, reviver){
 서버단에서는 넘겨받은 데이터를 테이블에 삽입해주는 방식으로 간단히 구현하였습니다.
 
 ```java
-@PostMapping("/buy")
+    @PostMapping("/buy")
     @ResponseBody
     public ReturnResult getGoodsBuy(@RequestBody Payment payment, Principal principal) throws Exception {
 
@@ -161,7 +161,7 @@ $(document).ready(function(text, reviver){
             }
             return result;
         }
-        else{
+        else {
             result.setResult(false);
             return result;
         }
