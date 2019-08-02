@@ -115,13 +115,13 @@ $(document).ready(function(text, reviver){
                 buyer_postcode: '구매자 우편 번호',
                 m_redirect_url: '구매 후 리다이렉트 될 페이지'
             }, function (rsp) {
-                console.log(rsp);
                 if (rsp.success) { // 결제 성공시
                     var msg = '결제가 완료되었습니다.';
                     msg += '고유ID : ' + rsp.imp_uid;
                     msg += '상점 거래ID : ' + rsp.merchant_uid;
                     msg += '결제 금액 : ' + rsp.paid_amount;
                     msg += '카드 승인번호 : ' + rsp.apply_num;
+					
 				} else { // 결제 실패시
                     flag = "No";
                     payment.getBuy(flag);
