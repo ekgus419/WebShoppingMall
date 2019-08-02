@@ -122,7 +122,7 @@ $(document).ready(function(text, reviver){
                     msg += '결제 금액 : ' + rsp.paid_amount;
                     msg += '카드 승인번호 : ' + rsp.apply_num;
 					
-				} else { // 결제 실패시
+	} else { // 결제 실패시
                     flag = "No";
                     payment.getBuy(flag);
                     var msg = rsp.error_msg + ".";
